@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using LoyaltyPrime.DataAccessLayer.Infrastructure.Specifications;
 using LoyaltyPrime.Models;
-using LoyaltyPrime.Services.Contexts.MemberServices.Dtos;
+using LoyaltyPrime.Services.Contexts.MemberServices.Dto;
 
 namespace LoyaltyPrime.Services.Common.Specifications.MemberSpec
 {

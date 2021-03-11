@@ -5,7 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Common\Specifications\AccountSpec" />
       <Folder Include="Contexts\CompanyServices\Dtos" />
       <Folder Include="Contexts\ManagementServices" />
       <Folder Include="Contexts\MemberServices\Specifications" />

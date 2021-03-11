@@ -1,4 +1,4 @@
-﻿namespace LoyaltyPrime.Services.Contexts.MemberServices.Dtos
+﻿namespace LoyaltyPrime.Services.Contexts.MemberServices.Dto
 {
     public class MemberDto
     {

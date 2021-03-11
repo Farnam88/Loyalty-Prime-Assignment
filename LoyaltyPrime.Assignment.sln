@@ -1,0 +1,87 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoyaltyPrime.Infrastructure.Tests", "LoyaltyPrime.Infrastructure.Tests\LoyaltyPrime.Infrastructure.Tests.csproj", "{E2B49594-441E-44E4-A740-452A186B7535}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scr", "scr", "{BE564A13-FF47-4AF6-B279-E4566E7294DA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{23C7C59C-96D4-4A98-8D60-272C03953279}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoyaltyPrime.WebApi", "LoyaltyPrime.WebApi\LoyaltyPrime.WebApi.csproj", "{551446B2-5864-40F6-9084-65955B5EC8E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoyaltyPrime.Models", "LoyaltyPrime.Models\LoyaltyPrime.Models.csproj", "{131BE636-DF63-4800-B459-88F2C61AAC23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoyaltyPrime.DataLayer", "LoyaltyPrime.DataLayer\LoyaltyPrime.DataLayer.csproj", "{A0BAA3F0-9683-45BC-8ADF-1A0FC5C5C28D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoyaltyPrime.DataAccessLayer", "LoyaltyPrime.DataAccessLayer\LoyaltyPrime.DataAccessLayer.csproj", "{AEA343C0-9F42-4ABF-9064-DDE1BE151C30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoyaltyPrime.DataAccessLayer.Infrastructure", "LoyaltyPrime.DataAccessLayer.Infrastructure\LoyaltyPrime.DataAccessLayer.Infrastructure.csproj", "{813E056D-3F35-42DF-AD78-23264FF495D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoyaltyPrime.DataAccessLayer.Shared.Utilities", "LoyaltyPrime.DataAccessLayer.Shared.Utilities\LoyaltyPrime.DataAccessLayer.Shared.Utilities.csproj", "{979FD0FA-78EC-473D-A1E4-4DDAF0670D83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoyaltyPrime.Services", "LoyaltyPrime.Services\LoyaltyPrime.Services.csproj", "{70321D35-6E06-4780-BD44-23EE53E80400}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoyaltyPrime.Services.Tests", "LoyaltyPrime.Services.Tests\LoyaltyPrime.Services.Tests.csproj", "{3B4FF7E7-6CB0-4F1E-99B8-051C551D6B50}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution-folder", "solution-folder", "{D5626A12-94C0-4BE8-93A9-28CFF3D2A490}"
+ProjectSection(SolutionItems) = preProject
+	.dockerignore = .dockerignore
+	.gitignore = .gitignore
+	Dockerfile = Dockerfile
+	README.md = README.md
+EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E2B49594-441E-44E4-A740-452A186B7535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2B49594-441E-44E4-A740-452A186B7535}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2B49594-441E-44E4-A740-452A186B7535}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2B49594-441E-44E4-A740-452A186B7535}.Release|Any CPU.Build.0 = Release|Any CPU
+		{551446B2-5864-40F6-9084-65955B5EC8E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{551446B2-5864-40F6-9084-65955B5EC8E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{551446B2-5864-40F6-9084-65955B5EC8E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{551446B2-5864-40F6-9084-65955B5EC8E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{131BE636-DF63-4800-B459-88F2C61AAC23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{131BE636-DF63-4800-B459-88F2C61AAC23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{131BE636-DF63-4800-B459-88F2C61AAC23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{131BE636-DF63-4800-B459-88F2C61AAC23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0BAA3F0-9683-45BC-8ADF-1A0FC5C5C28D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0BAA3F0-9683-45BC-8ADF-1A0FC5C5C28D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0BAA3F0-9683-45BC-8ADF-1A0FC5C5C28D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0BAA3F0-9683-45BC-8ADF-1A0FC5C5C28D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEA343C0-9F42-4ABF-9064-DDE1BE151C30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEA343C0-9F42-4ABF-9064-DDE1BE151C30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEA343C0-9F42-4ABF-9064-DDE1BE151C30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEA343C0-9F42-4ABF-9064-DDE1BE151C30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{813E056D-3F35-42DF-AD78-23264FF495D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{813E056D-3F35-42DF-AD78-23264FF495D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{813E056D-3F35-42DF-AD78-23264FF495D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{813E056D-3F35-42DF-AD78-23264FF495D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{979FD0FA-78EC-473D-A1E4-4DDAF0670D83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{979FD0FA-78EC-473D-A1E4-4DDAF0670D83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{979FD0FA-78EC-473D-A1E4-4DDAF0670D83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{979FD0FA-78EC-473D-A1E4-4DDAF0670D83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70321D35-6E06-4780-BD44-23EE53E80400}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70321D35-6E06-4780-BD44-23EE53E80400}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70321D35-6E06-4780-BD44-23EE53E80400}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70321D35-6E06-4780-BD44-23EE53E80400}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B4FF7E7-6CB0-4F1E-99B8-051C551D6B50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B4FF7E7-6CB0-4F1E-99B8-051C551D6B50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B4FF7E7-6CB0-4F1E-99B8-051C551D6B50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B4FF7E7-6CB0-4F1E-99B8-051C551D6B50}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E2B49594-441E-44E4-A740-452A186B7535} = {23C7C59C-96D4-4A98-8D60-272C03953279}
+		{551446B2-5864-40F6-9084-65955B5EC8E2} = {BE564A13-FF47-4AF6-B279-E4566E7294DA}
+		{131BE636-DF63-4800-B459-88F2C61AAC23} = {BE564A13-FF47-4AF6-B279-E4566E7294DA}
+		{A0BAA3F0-9683-45BC-8ADF-1A0FC5C5C28D} = {BE564A13-FF47-4AF6-B279-E4566E7294DA}
+		{AEA343C0-9F42-4ABF-9064-DDE1BE151C30} = {BE564A13-FF47-4AF6-B279-E4566E7294DA}
+		{813E056D-3F35-42DF-AD78-23264FF495D9} = {BE564A13-FF47-4AF6-B279-E4566E7294DA}
+		{979FD0FA-78EC-473D-A1E4-4DDAF0670D83} = {BE564A13-FF47-4AF6-B279-E4566E7294DA}
+		{70321D35-6E06-4780-BD44-23EE53E80400} = {BE564A13-FF47-4AF6-B279-E4566E7294DA}
+		{3B4FF7E7-6CB0-4F1E-99B8-051C551D6B50} = {23C7C59C-96D4-4A98-8D60-272C03953279}
+	EndGlobalSection
+EndGlobal

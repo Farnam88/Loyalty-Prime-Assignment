@@ -1,0 +1,28 @@
+﻿using LoyaltyPrime.Models;
+using LoyaltyPrime.Models.Bases.Enums;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace LoyaltyPrime.DataLayer.EntityConfigurations
+{
+    internal class AccountConfig : IEntityTypeConfiguration<Account>
+    {
+        public void Configure(EntityTypeBuilder<Account> builder)
+        {
+            builder.ToTable("Accounts");
+            builder.HasKey(p => p.Id);
+            builder.Property(p => p.Balance)
+                .IsRequired()
+                .HasDefaultValue(0);
+
+            builder.Property(p => p.AccountState)
+                .IsRequired()
+                .HasDefaultValue(AccountState.Active);
+
+            builder.Property(p => p.RowVersion)
+                .IsRequired()
+                .IsRowVersion()
+                .ValueGeneratedOnAddOrUpdate();
+        }
+    }
+}

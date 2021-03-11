@@ -6,8 +6,7 @@
 
     <ItemGroup>
       <Folder Include="Contexts\CompanyServices\Dtos" />
-      <Folder Include="Contexts\ManagementServices" />
-      <Folder Include="Contexts\MemberServices\Specifications" />
+      <Folder Include="Contexts\BalanceServices" />
     </ItemGroup>
 
     <ItemGroup>

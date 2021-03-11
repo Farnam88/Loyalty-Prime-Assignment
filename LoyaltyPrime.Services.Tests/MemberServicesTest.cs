@@ -49,13 +49,13 @@ namespace LoyaltyPrime.Services.Tests
 
             _unitOfWorkMock.Setup(s => s.MemberRepository).Returns(repositoryMock.Object);
 
-            GetMembersQuery command = new GetMembersQuery();
+            GetMembersQuery query = new GetMembersQuery();
 
             GetMembersQueryHandler sut = new GetMembersQueryHandler(_unitOfWorkMock.Object);
 
             //Act
 
-            var result = await sut.Handle(command, It.IsAny<CancellationToken>());
+            var result = await sut.Handle(query, It.IsAny<CancellationToken>());
 
             //Assert
 

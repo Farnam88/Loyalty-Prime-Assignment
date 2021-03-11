@@ -9,8 +9,6 @@ using LoyaltyPrime.Models.Bases.Enums;
 using LoyaltyPrime.Services.Contexts.AccountServices.Commands;
 using LoyaltyPrime.Services.Contexts.AccountServices.Dto;
 using LoyaltyPrime.Services.Contexts.AccountServices.Queries;
-using LoyaltyPrime.Services.Contexts.MemberServices.Dto;
-using LoyaltyPrime.Services.Contexts.MemberServices.Queris;
 using Moq;
 using Xunit;
 
@@ -18,7 +16,7 @@ namespace LoyaltyPrime.Services.Tests
 {
     public class AccountServicesTests
     {
-        private Mock<IRepository<Account>> repositoryMock = new Mock<IRepository<Account>>();
+        private Mock<IRepository<Account>> accountRepositoryMock = new Mock<IRepository<Account>>();
 
         private readonly Mock<IUnitOfWork> _unitOfWorkMock = new Mock<IUnitOfWork>();
 
@@ -40,10 +38,10 @@ namespace LoyaltyPrime.Services.Tests
                     s.FirstOrDefaultAsync(It.IsAny<ISpecification<Member>>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(member).Verifiable();
 
-            repositoryMock.Setup(s =>
+            accountRepositoryMock.Setup(s =>
                 s.AddAsync(account, It.IsAny<CancellationToken>())).Verifiable();
 
-            _unitOfWorkMock.Setup(s => s.AccountRepository).Returns(repositoryMock.Object);
+            _unitOfWorkMock.Setup(s => s.AccountRepository).Returns(accountRepositoryMock.Object);
             _unitOfWorkMock.Setup(s => s.CompanyRepository).Returns(companyRepositoryMock.Object);
             _unitOfWorkMock.Setup(s => s.MemberRepository).Returns(memberRepositoryMock.Object);
 
@@ -60,7 +58,7 @@ namespace LoyaltyPrime.Services.Tests
                 v.FirstOrDefaultAsync(It.IsAny<ISpecification<Company>>(), It.IsAny<CancellationToken>()));
             memberRepositoryMock.Verify(v =>
                 v.FirstOrDefaultAsync(It.IsAny<ISpecification<Member>>(), It.IsAny<CancellationToken>()));
-            repositoryMock.Verify(v => v.AddAsync(It.IsAny<Account>(), It.IsAny<CancellationToken>()));
+            accountRepositoryMock.Verify(v => v.AddAsync(It.IsAny<Account>(), It.IsAny<CancellationToken>()));
             _unitOfWorkMock.Verify(v => v.CommitAsync(It.IsAny<CancellationToken>()));
 
             Assert.True(result.IsSucceeded);
@@ -140,8 +138,8 @@ namespace LoyaltyPrime.Services.Tests
             var member = new Member("Farnam") {Id = memberId};
             var activeAccounts = CreateDtoSet();
 
-            repositoryMock.Setup(s =>
-                    s.GetAllAsync(It.IsAny<ISpecification<Account, MemberActiveAccountsDto>>(),
+            accountRepositoryMock.Setup(s =>
+                    s.GetAllAsync(It.IsAny<ISpecification<Account, MemberAccountsDto>>(),
                         It.IsAny<CancellationToken>()))
                 .ReturnsAsync(activeAccounts).Verifiable();
 
@@ -150,24 +148,26 @@ namespace LoyaltyPrime.Services.Tests
                     s.FirstOrDefaultAsync(It.IsAny<ISpecification<Member>>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(member).Verifiable();
 
-            _unitOfWorkMock.Setup(s => s.AccountRepository).Returns(repositoryMock.Object);
+            _unitOfWorkMock.Setup(s => s.AccountRepository).Returns(accountRepositoryMock.Object);
             _unitOfWorkMock.Setup(s => s.MemberRepository).Returns(memberRepositoryMock.Object);
 
-            GetMemberActiveAccountsQuery command = new GetMemberActiveAccountsQuery(memberId);
+            GetMemberActiveAccountsQuery query = new GetMemberActiveAccountsQuery(memberId);
 
             GetMemberActiveAccountsQueryHandler sut = new GetMemberActiveAccountsQueryHandler(_unitOfWorkMock.Object);
 
             //Act
 
-            var result = await sut.Handle(command, It.IsAny<CancellationToken>());
+            var result = await sut.Handle(query, It.IsAny<CancellationToken>());
 
             //Assert
 
             _unitOfWorkMock.Verify(v => v.MemberRepository);
+
             memberRepositoryMock.Verify(v =>
                 v.FirstOrDefaultAsync(It.IsAny<ISpecification<Member>>(), It.IsAny<CancellationToken>()));
-            repositoryMock.Verify(v =>
-                v.GetAllAsync(It.IsAny<ISpecification<Account, MemberActiveAccountsDto>>(),
+
+            accountRepositoryMock.Verify(v =>
+                v.GetAllAsync(It.IsAny<ISpecification<Account, MemberAccountsDto>>(),
                     It.IsAny<CancellationToken>()));
 
             Assert.True(result.IsSucceeded && result.StatusCode == 200);
@@ -175,11 +175,42 @@ namespace LoyaltyPrime.Services.Tests
             Assert.NotNull(result.Result);
         }
 
-        private List<MemberActiveAccountsDto> CreateDtoSet()
+        [Fact]
+        public async Task GetAccountById_ShouldReturnAccount_IfAccountExists()
         {
-            return new List<MemberActiveAccountsDto>
+            //Arrange
+            var account = new MemberAccountsDto(1, 1, 1, "Burger King",
+                "Farnam", 100, AccountState.Active.ToString());
+
+            accountRepositoryMock.Setup(s =>
+                    s.FirstOrDefaultAsync(It.IsAny<ISpecification<Account, MemberAccountsDto>>(),
+                        It.IsAny<CancellationToken>()))
+                .ReturnsAsync(account).Verifiable();
+
+            _unitOfWorkMock.Setup(s => s.AccountRepository).Returns(accountRepositoryMock.Object);
+
+            GetMemberAccountQuery query = new GetMemberAccountQuery(1, 1);
+            GetAccountByIdQueryHandler sut = new GetAccountByIdQueryHandler(_unitOfWorkMock.Object);
+
+            //Act
+            var result = await sut.Handle(query, It.IsAny<CancellationToken>());
+
+            //Assert
+            _unitOfWorkMock.Verify(v => v.AccountRepository);
+            accountRepositoryMock.Verify(s =>
+                s.FirstOrDefaultAsync(It.IsAny<ISpecification<Account, MemberAccountsDto>>(),
+                    It.IsAny<CancellationToken>()));
+
+            Assert.True(result.IsSucceeded && result.StatusCode == 200);
+
+            Assert.NotNull(result.Result);
+        }
+
+        private List<MemberAccountsDto> CreateDtoSet()
+        {
+            return new List<MemberAccountsDto>
             {
-                new MemberActiveAccountsDto
+                new MemberAccountsDto
                 {
                     Balance = 100,
                     State = AccountState.Active.ToString(),

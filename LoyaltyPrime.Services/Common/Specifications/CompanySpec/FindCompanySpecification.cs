@@ -1,5 +1,4 @@
 ﻿using LoyaltyPrime.DataAccessLayer.Infrastructure.Specifications;
-using LoyaltyPrime.DataAccessLayer.Specifications;
 using LoyaltyPrime.Models;
 
 namespace LoyaltyPrime.Services.Common.Specifications.CompanySpec

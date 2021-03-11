@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LoyaltyPrime.DataLayer.EntityConfigurations
 {
-    internal class CompanyRewardOptionConfig : IEntityTypeConfiguration<CompanyRewardOption>
+    internal class CompanyRewardConfig : IEntityTypeConfiguration<CompanyReward>
     {
-        public void Configure(EntityTypeBuilder<CompanyRewardOption> builder)
+        public void Configure(EntityTypeBuilder<CompanyReward> builder)
         {
-            builder.ToTable("CompanyRewardOptions");
+            builder.ToTable("CompanyRewards");
 
             builder.HasKey(p => p.Id);
 
@@ -18,12 +18,12 @@ namespace LoyaltyPrime.DataLayer.EntityConfigurations
                 .IsUnicode()
                 .HasConversion(ConfigHelpers.ConfigConverterTrim());
 
-            builder.Property(p => p.RewardPoint)
+            builder.Property(p => p.RewardPoints)
                 .IsRequired()
                 .HasDefaultValue(0);
 
             builder.HasOne(p => p.Company)
-                .WithMany(p => p.CompanyRewardOptions)
+                .WithMany(p => p.CompanyRewards)
                 .HasForeignKey(f => f.CompanyId)
                 .OnDelete(DeleteBehavior.NoAction);
         }

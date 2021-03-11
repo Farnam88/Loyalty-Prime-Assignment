@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using LoyaltyPrime.Models.Bases;
 using LoyaltyPrime.Models.Bases.CommonEntities;
 using LoyaltyPrime.Models.Bases.Enums;
 

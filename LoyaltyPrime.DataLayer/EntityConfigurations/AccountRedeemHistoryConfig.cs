@@ -12,7 +12,7 @@ namespace LoyaltyPrime.DataLayer.EntityConfigurations
 
             builder.HasKey(p => p.Id);
 
-            builder.Property(p => p.RedeemPoint)
+            builder.Property(p => p.RedeemPoints)
                 .IsRequired()
                 .HasDefaultValue(0);
 
@@ -22,9 +22,9 @@ namespace LoyaltyPrime.DataLayer.EntityConfigurations
                 .HasForeignKey(f => f.AccountId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasOne(p => p.CompanyRedeemOption)
+            builder.HasOne(p => p.CompanyRedeem)
                 .WithMany(p => p.AccountRedeemHistories)
-                .HasForeignKey(f => f.RedeemOptionId)
+                .HasForeignKey(f => f.CompanyRedeemId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }

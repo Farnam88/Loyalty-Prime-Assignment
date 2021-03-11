@@ -10,8 +10,8 @@ namespace LoyaltyPrime.Models
             Name = name;
             NormalizedName = name;
             Accounts = new HashSet<Account>();
-            CompanyRewardOptions = new HashSet<CompanyRewardOption>();
-            CompanyRedeemOptions = new HashSet<CompanyRedeemOption>();
+            CompanyRewards = new HashSet<CompanyReward>();
+            CompanyRedeems = new HashSet<CompanyRedeem>();
         }
 
         public string Name { get; set; }
@@ -19,7 +19,7 @@ namespace LoyaltyPrime.Models
         public string NormalizedName { get; set; }
 
         public virtual ICollection<Account> Accounts { get; set; }
-        public virtual ICollection<CompanyRewardOption> CompanyRewardOptions { get; set; }
-        public virtual ICollection<CompanyRedeemOption> CompanyRedeemOptions { get; set; }
+        public virtual ICollection<CompanyReward> CompanyRewards { get; set; }
+        public virtual ICollection<CompanyRedeem> CompanyRedeems { get; set; }
     }
 }

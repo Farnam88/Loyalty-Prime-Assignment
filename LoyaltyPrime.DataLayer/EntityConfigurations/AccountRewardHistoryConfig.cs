@@ -12,7 +12,7 @@ namespace LoyaltyPrime.DataLayer.EntityConfigurations
 
             builder.HasKey(p => p.Id);
 
-            builder.Property(p => p.RewardPoint)
+            builder.Property(p => p.RewardPoints)
                 .IsRequired()
                 .HasDefaultValue(0);
 
@@ -24,7 +24,7 @@ namespace LoyaltyPrime.DataLayer.EntityConfigurations
 
             builder.HasOne(p => p.CompanyReward)
                 .WithMany(p => p.AccountRewardHistories)
-                .HasForeignKey(f => f.RewardOptionId)
+                .HasForeignKey(f => f.CompanyRewardId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }

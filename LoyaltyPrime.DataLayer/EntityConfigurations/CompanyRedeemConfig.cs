@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LoyaltyPrime.DataLayer.EntityConfigurations
 {
-    internal class CompanyRedeemOptionConfig : IEntityTypeConfiguration<CompanyRedeemOption>
+    internal class CompanyRedeemConfig : IEntityTypeConfiguration<CompanyRedeem>
     {
-        public void Configure(EntityTypeBuilder<CompanyRedeemOption> builder)
+        public void Configure(EntityTypeBuilder<CompanyRedeem> builder)
         {
-            builder.ToTable("CompanyRedeemOptions");
+            builder.ToTable("CompanyRedeems");
 
             builder.HasKey(p => p.Id);
 
@@ -18,12 +18,12 @@ namespace LoyaltyPrime.DataLayer.EntityConfigurations
                 .IsUnicode()
                 .HasConversion(ConfigHelpers.ConfigConverterTrim());
 
-            builder.Property(p => p.RedeemPoint)
+            builder.Property(p => p.RedeemPoints)
                 .IsRequired()
                 .HasDefaultValue(0);
 
             builder.HasOne(p => p.Company)
-                .WithMany(p => p.CompanyRedeemOptions)
+                .WithMany(p => p.CompanyRedeems)
                 .HasForeignKey(f => f.CompanyId)
                 .OnDelete(DeleteBehavior.NoAction);
         }

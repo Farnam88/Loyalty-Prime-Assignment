@@ -16,7 +16,7 @@ namespace LoyaltyPrime.Services.Tests
 {
     public class AccountServicesTests
     {
-        private Mock<IRepository<Account>> accountRepositoryMock = new Mock<IRepository<Account>>();
+        private readonly Mock<IRepository<Account>> _accountRepositoryMock = new Mock<IRepository<Account>>();
 
         private readonly Mock<IUnitOfWork> _unitOfWorkMock = new Mock<IUnitOfWork>();
 
@@ -27,108 +27,170 @@ namespace LoyaltyPrime.Services.Tests
             var company = new Company("Burger King") {Id = 1};
             var member = new Member("Farnam") {Id = 1};
             var account = new Account(member.Id, company.Id, 0, AccountState.Active);
+
             Mock<IRepository<Company>> companyRepositoryMock = new Mock<IRepository<Company>>();
             Mock<IRepository<Member>> memberRepositoryMock = new Mock<IRepository<Member>>();
 
             companyRepositoryMock.Setup(s =>
-                    s.FirstOrDefaultAsync(It.IsAny<ISpecification<Company>>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(company).Verifiable();
+                    s.GetByIdAsync(company.Id, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(company)
+                .Verifiable();
 
             memberRepositoryMock.Setup(s =>
-                    s.FirstOrDefaultAsync(It.IsAny<ISpecification<Member>>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(member).Verifiable();
+                    s.GetByIdAsync(member.Id, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(member)
+                .Verifiable();
 
-            accountRepositoryMock.Setup(s =>
-                s.AddAsync(account, It.IsAny<CancellationToken>())).Verifiable();
+            _accountRepositoryMock.Setup(s =>
+                    s.AddAsync(account, It.IsAny<CancellationToken>()))
+                .Verifiable();
 
-            _unitOfWorkMock.Setup(s => s.AccountRepository).Returns(accountRepositoryMock.Object);
-            _unitOfWorkMock.Setup(s => s.CompanyRepository).Returns(companyRepositoryMock.Object);
-            _unitOfWorkMock.Setup(s => s.MemberRepository).Returns(memberRepositoryMock.Object);
+            _unitOfWorkMock.Setup(s => s.AccountRepository).Returns(_accountRepositoryMock.Object)
+                .Verifiable();
+
+            _unitOfWorkMock.Setup(s => s.CompanyRepository).Returns(companyRepositoryMock.Object)
+                .Verifiable();
+
+            _unitOfWorkMock.Setup(s => s.MemberRepository).Returns(memberRepositoryMock.Object)
+                .Verifiable();
+
+            _unitOfWorkMock.Setup(s => s.CommitAsync(It.IsAny<CancellationToken>()))
+                .Verifiable();
 
             CreateAccountCommand command = new CreateAccountCommand(member.Id, company.Id);
             CreateAccountCommandHandler sut = new CreateAccountCommandHandler(_unitOfWorkMock.Object);
+
             //Act
             var result = await sut.Handle(command, It.IsAny<CancellationToken>());
 
             //Assert
+
             _unitOfWorkMock.Verify(v => v.MemberRepository);
             _unitOfWorkMock.Verify(v => v.AccountRepository);
             _unitOfWorkMock.Verify(v => v.CompanyRepository);
             companyRepositoryMock.Verify(v =>
-                v.FirstOrDefaultAsync(It.IsAny<ISpecification<Company>>(), It.IsAny<CancellationToken>()));
+                v.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
             memberRepositoryMock.Verify(v =>
-                v.FirstOrDefaultAsync(It.IsAny<ISpecification<Member>>(), It.IsAny<CancellationToken>()));
-            accountRepositoryMock.Verify(v => v.AddAsync(It.IsAny<Account>(), It.IsAny<CancellationToken>()));
+                v.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
+            _accountRepositoryMock.Verify(v => v.AddAsync(It.IsAny<Account>(), It.IsAny<CancellationToken>()));
             _unitOfWorkMock.Verify(v => v.CommitAsync(It.IsAny<CancellationToken>()));
 
             Assert.True(result.IsSucceeded);
+            Assert.Equal(201, result.StatusCode);
         }
 
-        [Fact]
-        public async Task CreateAccount_ShouldFail_IfCompanyNotExists()
+        [Theory]
+        [InlineData(1, 1, true, false)]
+        [InlineData(1, 1, false, false)]
+        public async Task CreateAccount_ShouldFail_IfCompanyOrAccountNotExists(int companyId,
+            int memberId, bool memberIsNull, bool expectedResult)
         {
             //Arrange
-
+            var company = new Company("Burger King") {Id = 1};
             var member = new Member("Farnam") {Id = 1};
+
             Mock<IRepository<Company>> companyRepositoryMock = new Mock<IRepository<Company>>();
             Mock<IRepository<Member>> memberRepositoryMock = new Mock<IRepository<Member>>();
 
             companyRepositoryMock.Setup(s =>
-                    s.FirstOrDefaultAsync(It.IsAny<ISpecification<Company>>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((Company) null).Verifiable();
+                    s.GetByIdAsync(companyId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(memberIsNull ? company : (Company) null)
+                .Verifiable();
 
             memberRepositoryMock.Setup(s =>
-                    s.FirstOrDefaultAsync(It.IsAny<ISpecification<Member>>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(member).Verifiable();
+                    s.GetByIdAsync(memberId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(memberIsNull ? (Member) null : member)
+                .Verifiable();
 
             _unitOfWorkMock.Setup(s => s.CompanyRepository).Returns(companyRepositoryMock.Object);
             _unitOfWorkMock.Setup(s => s.MemberRepository).Returns(memberRepositoryMock.Object);
 
-            CreateAccountCommand command = new CreateAccountCommand(It.IsAny<int>(), It.IsAny<int>());
+            CreateAccountCommand command = new CreateAccountCommand(companyId, memberId);
             CreateAccountCommandHandler sut = new CreateAccountCommandHandler(_unitOfWorkMock.Object);
+
             //Act
             var result = await sut.Handle(command, It.IsAny<CancellationToken>());
 
             //Assert
+
             _unitOfWorkMock.Verify(v => v.CompanyRepository);
             companyRepositoryMock.Verify(v =>
-                v.FirstOrDefaultAsync(It.IsAny<ISpecification<Company>>(), It.IsAny<CancellationToken>()));
+                v.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
 
-            Assert.False(result.IsSucceeded);
+            if (memberIsNull)
+            {
+                _unitOfWorkMock.Verify(v => v.MemberRepository);
+                memberRepositoryMock.Verify(v =>
+                    v.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
+            }
+
+            Assert.Equal(expectedResult, result.IsSucceeded);
         }
-
-        [Fact]
-        public async Task CreateAccount_ShouldFail_IfMemberNotExists()
-        {
-            //Arrange
-
-            var company = new Company("Burger King") {Id = 1};
-            Mock<IRepository<Company>> companyRepositoryMock = new Mock<IRepository<Company>>();
-            Mock<IRepository<Member>> memberRepositoryMock = new Mock<IRepository<Member>>();
-
-            companyRepositoryMock.Setup(s =>
-                    s.FirstOrDefaultAsync(It.IsAny<ISpecification<Company>>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(company).Verifiable();
-
-            memberRepositoryMock.Setup(s =>
-                    s.FirstOrDefaultAsync(It.IsAny<ISpecification<Member>>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((Member) null).Verifiable();
-
-            _unitOfWorkMock.Setup(s => s.CompanyRepository).Returns(companyRepositoryMock.Object);
-            _unitOfWorkMock.Setup(s => s.MemberRepository).Returns(memberRepositoryMock.Object);
-
-            CreateAccountCommand command = new CreateAccountCommand(It.IsAny<int>(), It.IsAny<int>());
-            CreateAccountCommandHandler sut = new CreateAccountCommandHandler(_unitOfWorkMock.Object);
-            //Act
-            var result = await sut.Handle(command, It.IsAny<CancellationToken>());
-
-            //Assert
-            _unitOfWorkMock.Verify(v => v.MemberRepository);
-            memberRepositoryMock.Verify(v =>
-                v.FirstOrDefaultAsync(It.IsAny<ISpecification<Member>>(), It.IsAny<CancellationToken>()));
-
-            Assert.False(result.IsSucceeded);
-        }
+        // [Fact]
+        // public async Task CreateAccount_ShouldFail_IfCompanyNotExists()
+        // {
+        //     //Arrange
+        //
+        //     var member = new Member("Farnam") {Id = 1};
+        //     Mock<IRepository<Company>> companyRepositoryMock = new Mock<IRepository<Company>>();
+        //     Mock<IRepository<Member>> memberRepositoryMock = new Mock<IRepository<Member>>();
+        //
+        //     companyRepositoryMock.Setup(s =>
+        //             s.FirstOrDefaultAsync(It.IsAny<ISpecification<Company>>(), It.IsAny<CancellationToken>()))
+        //         .ReturnsAsync((Company) null).Verifiable();
+        //
+        //     memberRepositoryMock.Setup(s =>
+        //             s.FirstOrDefaultAsync(It.IsAny<ISpecification<Member>>(), It.IsAny<CancellationToken>()))
+        //         .ReturnsAsync(member).Verifiable();
+        //
+        //     _unitOfWorkMock.Setup(s => s.CompanyRepository).Returns(companyRepositoryMock.Object);
+        //     _unitOfWorkMock.Setup(s => s.MemberRepository).Returns(memberRepositoryMock.Object);
+        //
+        //     CreateAccountCommand command = new CreateAccountCommand(It.IsAny<int>(), It.IsAny<int>());
+        //     CreateAccountCommandHandler sut = new CreateAccountCommandHandler(_unitOfWorkMock.Object);
+        //     //Act
+        //     var result = await sut.Handle(command, It.IsAny<CancellationToken>());
+        //
+        //     //Assert
+        //     _unitOfWorkMock.Verify(v => v.CompanyRepository);
+        //     companyRepositoryMock.Verify(v =>
+        //         v.FirstOrDefaultAsync(It.IsAny<ISpecification<Company>>(), It.IsAny<CancellationToken>()));
+        //
+        //     Assert.False(result.IsSucceeded);
+        // }
+        //
+        // [Fact]
+        // public async Task CreateAccount_ShouldFail_IfMemberNotExists()
+        // {
+        //     //Arrange
+        //
+        //     var company = new Company("Burger King") {Id = 1};
+        //     Mock<IRepository<Company>> companyRepositoryMock = new Mock<IRepository<Company>>();
+        //     Mock<IRepository<Member>> memberRepositoryMock = new Mock<IRepository<Member>>();
+        //
+        //     companyRepositoryMock.Setup(s =>
+        //             s.FirstOrDefaultAsync(It.IsAny<ISpecification<Company>>(), It.IsAny<CancellationToken>()))
+        //         .ReturnsAsync(company).Verifiable();
+        //
+        //     memberRepositoryMock.Setup(s =>
+        //             s.FirstOrDefaultAsync(It.IsAny<ISpecification<Member>>(), It.IsAny<CancellationToken>()))
+        //         .ReturnsAsync((Member) null).Verifiable();
+        //
+        //     _unitOfWorkMock.Setup(s => s.CompanyRepository).Returns(companyRepositoryMock.Object);
+        //     _unitOfWorkMock.Setup(s => s.MemberRepository).Returns(memberRepositoryMock.Object);
+        //
+        //     CreateAccountCommand command = new CreateAccountCommand(It.IsAny<int>(), It.IsAny<int>());
+        //     CreateAccountCommandHandler sut = new CreateAccountCommandHandler(_unitOfWorkMock.Object);
+        //     //Act
+        //     var result = await sut.Handle(command, It.IsAny<CancellationToken>());
+        //
+        //     //Assert
+        //     _unitOfWorkMock.Verify(v => v.MemberRepository);
+        //     memberRepositoryMock.Verify(v =>
+        //         v.FirstOrDefaultAsync(It.IsAny<ISpecification<Member>>(), It.IsAny<CancellationToken>()));
+        //
+        //     Assert.False(result.IsSucceeded);
+        // }
 
         [Fact]
         public async Task GetMemberActiveAccounts_ShouldReturnSetOfActiveAccount_IfMemberAndAccountExists()
@@ -138,7 +200,7 @@ namespace LoyaltyPrime.Services.Tests
             var member = new Member("Farnam") {Id = memberId};
             var activeAccounts = CreateDtoSet();
 
-            accountRepositoryMock.Setup(s =>
+            _accountRepositoryMock.Setup(s =>
                     s.GetAllAsync(It.IsAny<ISpecification<Account, MemberAccountsDto>>(),
                         It.IsAny<CancellationToken>()))
                 .ReturnsAsync(activeAccounts).Verifiable();
@@ -148,7 +210,7 @@ namespace LoyaltyPrime.Services.Tests
                     s.FirstOrDefaultAsync(It.IsAny<ISpecification<Member>>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(member).Verifiable();
 
-            _unitOfWorkMock.Setup(s => s.AccountRepository).Returns(accountRepositoryMock.Object);
+            _unitOfWorkMock.Setup(s => s.AccountRepository).Returns(_accountRepositoryMock.Object);
             _unitOfWorkMock.Setup(s => s.MemberRepository).Returns(memberRepositoryMock.Object);
 
             GetMemberActiveAccountsQuery query = new GetMemberActiveAccountsQuery(memberId);
@@ -166,7 +228,7 @@ namespace LoyaltyPrime.Services.Tests
             memberRepositoryMock.Verify(v =>
                 v.FirstOrDefaultAsync(It.IsAny<ISpecification<Member>>(), It.IsAny<CancellationToken>()));
 
-            accountRepositoryMock.Verify(v =>
+            _accountRepositoryMock.Verify(v =>
                 v.GetAllAsync(It.IsAny<ISpecification<Account, MemberAccountsDto>>(),
                     It.IsAny<CancellationToken>()));
 
@@ -182,12 +244,12 @@ namespace LoyaltyPrime.Services.Tests
             var account = new MemberAccountsDto(1, 1, 1, "Burger King",
                 "Farnam", 100, AccountState.Active.ToString());
 
-            accountRepositoryMock.Setup(s =>
+            _accountRepositoryMock.Setup(s =>
                     s.FirstOrDefaultAsync(It.IsAny<ISpecification<Account, MemberAccountsDto>>(),
                         It.IsAny<CancellationToken>()))
                 .ReturnsAsync(account).Verifiable();
 
-            _unitOfWorkMock.Setup(s => s.AccountRepository).Returns(accountRepositoryMock.Object);
+            _unitOfWorkMock.Setup(s => s.AccountRepository).Returns(_accountRepositoryMock.Object);
 
             GetMemberAccountQuery query = new GetMemberAccountQuery(1, 1);
             GetAccountByIdQueryHandler sut = new GetAccountByIdQueryHandler(_unitOfWorkMock.Object);
@@ -197,7 +259,7 @@ namespace LoyaltyPrime.Services.Tests
 
             //Assert
             _unitOfWorkMock.Verify(v => v.AccountRepository);
-            accountRepositoryMock.Verify(s =>
+            _accountRepositoryMock.Verify(s =>
                 s.FirstOrDefaultAsync(It.IsAny<ISpecification<Account, MemberAccountsDto>>(),
                     It.IsAny<CancellationToken>()));
 

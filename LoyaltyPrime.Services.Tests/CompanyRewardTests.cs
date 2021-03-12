@@ -45,7 +45,7 @@ namespace LoyaltyPrime.Services.Tests
                 .Verifiable();
 
             CreateCompanyRewardCommand command = new CreateCompanyRewardCommand(rewardOption.CompanyId,
-                rewardOption.RewardTitle, rewardOption.RewardPoints);
+                rewardOption.RewardTitle, rewardOption.GainedPoints);
 
             CreateCompanyRewardCommandHandler sut =
                 new CreateCompanyRewardCommandHandler(_unitOfWorkMock.Object);

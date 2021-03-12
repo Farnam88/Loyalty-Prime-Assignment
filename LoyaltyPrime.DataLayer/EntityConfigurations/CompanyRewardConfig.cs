@@ -18,7 +18,7 @@ namespace LoyaltyPrime.DataLayer.EntityConfigurations
                 .IsUnicode()
                 .HasConversion(ConfigHelpers.ConfigConverterTrim());
 
-            builder.Property(p => p.RewardPoints)
+            builder.Property(p => p.GainedPoints)
                 .IsRequired()
                 .HasDefaultValue(0);
 

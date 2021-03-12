@@ -39,8 +39,8 @@ namespace LoyaltyPrime.Services.Contexts.AccountServices.Queries
             if (member == null)
                 return ResultModel<object>.NotFound(nameof(Member));
 
-            MemberAccountsSpecification accountSpecification =
-                new MemberAccountsSpecification();
+            AccountsDtoSpecification accountSpecification =
+                new AccountsDtoSpecification();
             var accounts = await Uow.AccountRepository.GetAllAsync(accountSpecification, cancellationToken);
             if (accounts.Count > 0)
                 return ResultModel<object>.Success(200, "", accounts);

@@ -6,6 +6,7 @@ using LoyaltyPrime.DataAccessLayer;
 using LoyaltyPrime.DataAccessLayer.Shared.Utilities.Common.Data;
 using LoyaltyPrime.Services.Common.Base;
 using LoyaltyPrime.Services.Common.Specifications;
+using LoyaltyPrime.Services.Common.Specifications.CompanyRewardSpec;
 using LoyaltyPrime.Services.Contexts.CompanyRewardServices.Dto;
 using MediatR;
 

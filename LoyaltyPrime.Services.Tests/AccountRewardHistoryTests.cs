@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using LoyaltyPrime.DataAccessLayer;
 using LoyaltyPrime.DataAccessLayer.Repositories;
 using LoyaltyPrime.Models;
-using LoyaltyPrime.Services.Contexts.AccountRewardHistoryServices.Command;
+using LoyaltyPrime.Services.Contexts.AccountRewardHistoryServices.Notifications;
 using Moq;
 using Xunit;
 
@@ -33,16 +33,18 @@ namespace LoyaltyPrime.Services.Tests
             _unitOfWorkMock.Setup(s => s.AccountRewardHistoryRepository)
                 .Returns(_accountRewardHistoryRepositoryMock.Object)
                 .Verifiable();
+            _unitOfWorkMock.Setup(s => s.CommitAsync(It.IsAny<CancellationToken>()))
+                .Verifiable();
 
-            CreateAccountRewardHistoryCommand command =
-                new CreateAccountRewardHistoryCommand(rewardHistory.CompanyRewardId, rewardHistory.AccountId,
+            PlaceAccountRewardHistoryNotification command =
+                new PlaceAccountRewardHistoryNotification(rewardHistory.CompanyRewardId, rewardHistory.AccountId,
                     rewardHistory.RewardPoints);
 
-            CreateAccountRewardHistoryCommandHandler sut =
-                new CreateAccountRewardHistoryCommandHandler(_unitOfWorkMock.Object);
+            PlaceAccountRewardHistoryNotificationHandler sut =
+                new PlaceAccountRewardHistoryNotificationHandler(_unitOfWorkMock.Object);
 
             //Act
-            var result = await sut.Handle(command, It.IsAny<CancellationToken>());
+            await sut.Handle(command, It.IsAny<CancellationToken>());
 
             //Assert
 
@@ -52,8 +54,6 @@ namespace LoyaltyPrime.Services.Tests
                 v.AddAsync(It.IsAny<AccountRewardHistory>(), It.IsAny<CancellationToken>()));
 
             _unitOfWorkMock.Verify(v => v.CommitAsync(It.IsAny<CancellationToken>()));
-
-            Assert.True(result.IsSucceeded && result.StatusCode == 201);
         }
     }
 }

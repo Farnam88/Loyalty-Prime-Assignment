@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using LoyaltyPrime.DataAccessLayer;
 using LoyaltyPrime.DataAccessLayer.Repositories;
 using LoyaltyPrime.Models;
-using LoyaltyPrime.Services.Contexts.AccountRedeemHistoryServices.Command;
+using LoyaltyPrime.Services.Contexts.AccountRedeemHistoryServices.Notifications;
 using Moq;
 using Xunit;
 
@@ -20,10 +20,10 @@ namespace LoyaltyPrime.Services.Tests
         public async Task CreateAccountRedeemHistory_ShouldCreateAsLog_OnSuccess()
         {
             //Arrange
-            var RedeemHistory = new AccountRedeemHistory(1, 1, 50) {Id = 1};
+            var redeemHistory = new AccountRedeemHistory(1, 1, 50) {Id = 1};
 
             _accountRedeemHistoryRepositoryMock.Setup(s =>
-                    s.AddAsync(RedeemHistory, It.IsAny<CancellationToken>()))
+                    s.AddAsync(redeemHistory, It.IsAny<CancellationToken>()))
                 .Verifiable();
 
             _unitOfWorkMock.Setup(s => s.AccountRedeemHistoryRepository)
@@ -34,15 +34,18 @@ namespace LoyaltyPrime.Services.Tests
                 .Returns(_accountRedeemHistoryRepositoryMock.Object)
                 .Verifiable();
 
-            CreateAccountRedeemHistoryCommand command =
-                new CreateAccountRedeemHistoryCommand(RedeemHistory.CompanyRedeemId, RedeemHistory.AccountId,
-                    RedeemHistory.RedeemPoints);
+            _unitOfWorkMock.Setup(s => s.CommitAsync(It.IsAny<CancellationToken>()))
+                .Verifiable();
+            
+            PlaceAccountRedeemHistoryNotification notification =
+                new PlaceAccountRedeemHistoryNotification(redeemHistory.CompanyRedeemId, redeemHistory.AccountId,
+                    redeemHistory.RedeemPoints);
 
-            CreateAccountRedeemHistoryCommandHandler sut =
-                new CreateAccountRedeemHistoryCommandHandler(_unitOfWorkMock.Object);
+            PlaceAccountRedeemHistoryNotificationHandler sut =
+                new PlaceAccountRedeemHistoryNotificationHandler(_unitOfWorkMock.Object);
 
             //Act
-            var result = await sut.Handle(command, It.IsAny<CancellationToken>());
+            await sut.Handle(notification, It.IsAny<CancellationToken>());
 
             //Assert
 
@@ -52,8 +55,6 @@ namespace LoyaltyPrime.Services.Tests
                 v.AddAsync(It.IsAny<AccountRedeemHistory>(), It.IsAny<CancellationToken>()));
 
             _unitOfWorkMock.Verify(v => v.CommitAsync(It.IsAny<CancellationToken>()));
-
-            Assert.True(result.IsSucceeded && result.StatusCode == 201);
         }
     }
 }

@@ -5,9 +5,9 @@ using LoyaltyPrime.Services.Contexts.AccountServices.Dto;
 
 namespace LoyaltyPrime.Services.Common.Specifications.AccountSpec
 {
-    public class MemberAccountsSpecification : BaseSpecification<Account, MemberAccountsDto>
+    public class AccountsDtoSpecification : BaseSpecification<Account, MemberAccountsDto>
     {
-        public MemberAccountsSpecification() : base(s =>
+        public AccountsDtoSpecification() : base(s =>
             new MemberAccountsDto
             {
                 AccountId = s.Id,
@@ -21,7 +21,7 @@ namespace LoyaltyPrime.Services.Common.Specifications.AccountSpec
         {
         }
 
-        public MemberAccountsSpecification(int accountId, int memberId) : base(s =>
+        public AccountsDtoSpecification(int accountId, int memberId) : base(s =>
             new MemberAccountsDto
             {
                 AccountId = s.Id,
@@ -32,6 +32,14 @@ namespace LoyaltyPrime.Services.Common.Specifications.AccountSpec
                 MemberName = s.Member.Name,
                 Balance = s.Balance
             }, p => p.Id == accountId && p.MemberId == memberId)
+        {
+        }
+    }
+
+    public class AccountEntitySpecification : BaseSpecification<Account>
+    {
+        public AccountEntitySpecification(int accountId, int memberId) : base(p =>
+            p.Id == accountId && p.MemberId == memberId)
         {
         }
     }

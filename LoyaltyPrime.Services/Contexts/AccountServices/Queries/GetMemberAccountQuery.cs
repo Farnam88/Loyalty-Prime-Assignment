@@ -30,8 +30,8 @@ namespace LoyaltyPrime.Services.Contexts.AccountServices.Queries
         public override async Task<ResultModel<MemberAccountsDto>> Handle(GetMemberAccountQuery request,
             CancellationToken cancellationToken)
         {
-            MemberAccountsSpecification specification =
-                new MemberAccountsSpecification(request.AccountId, request.MemberId);
+            AccountsDtoSpecification specification =
+                new AccountsDtoSpecification(request.AccountId, request.MemberId);
             var account = await Uow.AccountRepository.FirstOrDefaultAsync(specification, cancellationToken);
             if (account != null)
                 return ResultModel<MemberAccountsDto>.Success(200, "", account);

@@ -5,8 +5,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Folder Include="Contexts\AccountRedeemHistoryServices\Command" />
       <Folder Include="Contexts\CompanyServices\Dtos" />
-      <Folder Include="Contexts\BalanceServices" />
     </ItemGroup>
 
     <ItemGroup>

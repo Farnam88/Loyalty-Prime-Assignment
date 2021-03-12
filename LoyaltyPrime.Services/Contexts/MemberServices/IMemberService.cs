@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using LoyaltyPrime.Services.Contexts.MemberServices.Dtos;
+using LoyaltyPrime.Services.Contexts.MemberServices.Dto;
 
 namespace LoyaltyPrime.Services.Contexts.MemberServices
 {

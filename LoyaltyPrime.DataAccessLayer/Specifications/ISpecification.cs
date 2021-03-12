@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using LoyaltyPrime.Models.Bases;
 using LoyaltyPrime.Models.Bases.CommonEntities;
 
 namespace LoyaltyPrime.DataAccessLayer.Specifications

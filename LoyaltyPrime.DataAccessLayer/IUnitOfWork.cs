@@ -10,8 +10,8 @@ namespace LoyaltyPrime.DataAccessLayer
         IRepository<Company> CompanyRepository { get; }
         IRepository<Member> MemberRepository { get; }
         IRepository<Account> AccountRepository { get; }
-        IRepository<CompanyRedeemOption> CompanyRedeemOptionRepository { get; }
-        IRepository<CompanyRewardOption> CompanyRewardOptionRepository { get; }
+        IRepository<CompanyRedeem> CompanyRedeemRepository { get; }
+        IRepository<CompanyReward> CompanyRewardRepository { get; }
         IRepository<AccountRedeemHistory> AccountRedeemHistoryRepository { get; }
         IRepository<AccountRewardHistory> AccountRewardHistoryRepository { get; }
 

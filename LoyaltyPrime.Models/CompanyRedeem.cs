@@ -3,25 +3,24 @@ using LoyaltyPrime.Models.Bases.CommonEntities;
 
 namespace LoyaltyPrime.Models
 {
-    public class CompanyRedeemOption : BaseModel
+    public class CompanyRedeem : BaseModel
     {
-        public CompanyRedeemOption(double redeemPoint)
+        public CompanyRedeem(double redeemPoint)
         {
-            RedeemPoint = redeemPoint;
+            RedeemPoints = redeemPoint;
         }
 
-        public CompanyRedeemOption(string redeemTitle, int companyId, double redeemPoint)
+        public CompanyRedeem(string redeemTitle, int companyId, double redeemPoint)
         {
             RedeemTitle = redeemTitle;
             CompanyId = companyId;
-            RedeemPoint = redeemPoint;
-            RedeemPoint = redeemPoint;
+            RedeemPoints = redeemPoint;
             AccountRedeemHistories = new HashSet<AccountRedeemHistory>();
         }
 
         public string RedeemTitle { get; set; }
         public int CompanyId { get; set; }
-        public double RedeemPoint { get; set; }
+        public double RedeemPoints { get; set; }
         public virtual Company Company { get; set; }
         public virtual ICollection<AccountRedeemHistory> AccountRedeemHistories { get; set; }
     }

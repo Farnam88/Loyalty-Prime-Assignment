@@ -5,10 +5,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Common\Specifications\AccountSpec" />
+      <Folder Include="Contexts\AccountRedeemHistoryServices\Command" />
       <Folder Include="Contexts\CompanyServices\Dtos" />
-      <Folder Include="Contexts\ManagementServices" />
-      <Folder Include="Contexts\MemberServices\Specifications" />
     </ItemGroup>
 
     <ItemGroup>

@@ -13,8 +13,8 @@ namespace LoyaltyPrime.DataAccessLayer.Infrastructure
         private IRepository<Company> _companyRepository;
         private IRepository<Member> _memberRepository;
         private IRepository<Account> _accountRepository;
-        private IRepository<CompanyRedeemOption> _companyRedeemOptionRepository;
-        private IRepository<CompanyRewardOption> _companyRewardOptionRepository;
+        private IRepository<CompanyRedeem> _companyRedeemRepository;
+        private IRepository<CompanyReward> _companyRewardRepository;
         private IRepository<AccountRedeemHistory> _accountRedeemHistoryRepository;
         private IRepository<AccountRewardHistory> _accountRewardHistoryRepository;
 
@@ -38,14 +38,14 @@ namespace LoyaltyPrime.DataAccessLayer.Infrastructure
             get { return _accountRepository ??= new Repository<Account>(_context); }
         }
 
-        public IRepository<CompanyRedeemOption> CompanyRedeemOptionRepository
+        public IRepository<CompanyRedeem> CompanyRedeemRepository
         {
-            get { return _companyRedeemOptionRepository ??= new Repository<CompanyRedeemOption>(_context); }
+            get { return _companyRedeemRepository ??= new Repository<CompanyRedeem>(_context); }
         }
 
-        public IRepository<CompanyRewardOption> CompanyRewardOptionRepository
+        public IRepository<CompanyReward> CompanyRewardRepository
         {
-            get { return _companyRewardOptionRepository ??= new Repository<CompanyRewardOption>(_context); }
+            get { return _companyRewardRepository ??= new Repository<CompanyReward>(_context); }
         }
 
         public IRepository<AccountRedeemHistory> AccountRedeemHistoryRepository

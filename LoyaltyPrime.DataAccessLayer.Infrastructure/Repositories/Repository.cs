@@ -8,7 +8,6 @@ using LoyaltyPrime.DataAccessLayer.Repositories;
 using LoyaltyPrime.DataAccessLayer.Shared.Utilities.Extensions;
 using LoyaltyPrime.DataAccessLayer.Specifications;
 using LoyaltyPrime.DataLayer;
-using LoyaltyPrime.Models.Bases;
 using LoyaltyPrime.Models.Bases.CommonEntities;
 using Microsoft.EntityFrameworkCore;
 

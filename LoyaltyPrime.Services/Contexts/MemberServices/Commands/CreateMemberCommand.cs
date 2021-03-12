@@ -3,11 +3,12 @@ using System.Threading.Tasks;
 using LoyaltyPrime.DataAccessLayer;
 using LoyaltyPrime.DataAccessLayer.Shared.Utilities.Common.Data;
 using LoyaltyPrime.Models;
+using LoyaltyPrime.Services.Common.Base;
 using MediatR;
 
 namespace LoyaltyPrime.Services.Contexts.MemberServices.Commands
 {
-    public class CreateMemberCommand : IRequest<ResultModel>
+    public class CreateMemberCommand : IRequest<ResultModel<int>>
     {
         public CreateMemberCommand(string name, string address)
         {
@@ -19,21 +20,19 @@ namespace LoyaltyPrime.Services.Contexts.MemberServices.Commands
         public string Address { get; set; }
     }
 
-    public class CreateMemberCommandHandler : IRequestHandler<CreateMemberCommand, ResultModel>
+    public class CreateMemberCommandHandler : BaseRequestHandler<CreateMemberCommand, ResultModel<int>>
     {
-        private readonly IUnitOfWork _unitOfWork;
-
-        public CreateMemberCommandHandler(IUnitOfWork unitOfWork)
+        public CreateMemberCommandHandler(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            _unitOfWork = unitOfWork;
         }
 
-        public async Task<ResultModel> Handle(CreateMemberCommand request, CancellationToken cancellationToken)
+        public override async Task<ResultModel<int>> Handle(CreateMemberCommand request,
+            CancellationToken cancellationToken)
         {
             var member = new Member(request.Name, request.Address);
-            await _unitOfWork.MemberRepository.AddAsync(member, cancellationToken);
-            await _unitOfWork.CommitAsync(cancellationToken);
-            return ResultModel.Success(201, "Member created");
+            await Uow.MemberRepository.AddAsync(member, cancellationToken);
+            await Uow.CommitAsync(cancellationToken);
+            return ResultModel<int>.Success(201, "Member created", member.Id);
         }
     }
 }

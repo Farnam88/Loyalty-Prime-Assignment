@@ -3,7 +3,7 @@
 #nullable enable
 namespace LoyaltyPrime.DataAccessLayer.Shared.Utilities.Common.Data
 {
-    public class ResultModel
+    public class ResultModel<TOutput>
     {
         /// <summary>
         /// Success Result Constructor
@@ -11,7 +11,7 @@ namespace LoyaltyPrime.DataAccessLayer.Shared.Utilities.Common.Data
         /// <param name="statusCode">statusCode</param>
         /// <param name="message">Success Message</param>
         /// <param name="result">Result Object(Optional)</param>
-        private ResultModel(int statusCode, string message, object result = null!)
+        private ResultModel(int statusCode, string message, TOutput result = default)
         {
             StatusCode = statusCode;
             Message = message;
@@ -33,14 +33,14 @@ namespace LoyaltyPrime.DataAccessLayer.Shared.Utilities.Common.Data
             StatusCode = statusCode;
             Message = message;
             IsSucceeded = false;
-            Result = null;
+            Result = default(TOutput);
             Error = new Error(errorType, info);
         }
 
         public int StatusCode { get; private set; }
         public string Message { get; private set; }
         public bool IsSucceeded { get; private set; }
-        public object? Result { get; private set; }
+        public TOutput? Result { get; private set; }
         public Error? Error { get; private set; }
 
         /// <summary>
@@ -50,9 +50,9 @@ namespace LoyaltyPrime.DataAccessLayer.Shared.Utilities.Common.Data
         /// <param name="message">Success Message</param>
         /// <param name="result">Result Object(Optional)</param>
         /// <returns>ResultModel</returns>
-        public static ResultModel Success(int statusCode, string message = "", object result = null!)
+        public static ResultModel<TOutput> Success(int statusCode, string message = "", TOutput result = default)
         {
-            return new ResultModel(statusCode, message, result);
+            return new ResultModel<TOutput>(statusCode, message, result);
         }
 
         /// <summary>
@@ -63,10 +63,21 @@ namespace LoyaltyPrime.DataAccessLayer.Shared.Utilities.Common.Data
         /// <param name="errorType">Error Type</param>
         /// <param name="info">Error Info(Optional)</param>
         /// <returns>ResultModel</returns>
-        public static ResultModel Fail(int statusCode, string message,
+        public static ResultModel<TOutput> Fail(int statusCode, string message,
             string errorType = ErrorTypes.InternalSystemError, IDictionary<string, string> info = null!)
         {
-            return new ResultModel(statusCode, message, errorType, info);
+            return new ResultModel<TOutput>(statusCode, message, errorType, info);
+        }
+
+        /// <summary>
+        /// Not Found Failed Result
+        /// </summary>
+        /// <param name="targetName">name of target</param>
+        /// <param name="info">Error Info(Optional)</param>
+        /// <returns>ResultModel</returns>
+        public static ResultModel<TOutput> NotFound(string targetName, IDictionary<string, string> info = null!)
+        {
+            return new ResultModel<TOutput>(404, $"Requested {targetName} not found", ErrorTypes.NotFound, info);
         }
     }
 }

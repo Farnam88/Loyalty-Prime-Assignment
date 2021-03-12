@@ -6,7 +6,7 @@ using LoyaltyPrime.DataAccessLayer.Repositories;
 using LoyaltyPrime.DataAccessLayer.Specifications;
 using LoyaltyPrime.Models;
 using LoyaltyPrime.Services.Contexts.MemberServices.Commands;
-using LoyaltyPrime.Services.Contexts.MemberServices.Dtos;
+using LoyaltyPrime.Services.Contexts.MemberServices.Dto;
 using LoyaltyPrime.Services.Contexts.MemberServices.Queris;
 using Moq;
 using Xunit;
@@ -22,7 +22,7 @@ namespace LoyaltyPrime.Services.Tests
         [Fact]
         public async Task CreateMember_ShouldCreateMember_OnSuccess()
         {
-            //
+            //Arrange
             repositoryMock.Setup(s => s.AddAsync(It.IsAny<Member>(), It.IsAny<CancellationToken>()));
             _unitOfWorkMock.Setup(s => s.MemberRepository).Returns(repositoryMock.Object);
             CreateMemberCommand command = new CreateMemberCommand("Farnam", "This is a Test Address");
@@ -40,7 +40,7 @@ namespace LoyaltyPrime.Services.Tests
         [Fact]
         public async Task GetMembers_ShouldReturnMemberDtoSet_OnSuccess()
         {
-            //
+            //Arrange
             var members = MemberDtoSet();
 
             repositoryMock.Setup(s =>
@@ -49,13 +49,13 @@ namespace LoyaltyPrime.Services.Tests
 
             _unitOfWorkMock.Setup(s => s.MemberRepository).Returns(repositoryMock.Object);
 
-            GetMembersQuery command = new GetMembersQuery();
+            GetMembersQuery query = new GetMembersQuery();
 
             GetMembersQueryHandler sut = new GetMembersQueryHandler(_unitOfWorkMock.Object);
 
             //Act
 
-            var result = await sut.Handle(command, It.IsAny<CancellationToken>());
+            var result = await sut.Handle(query, It.IsAny<CancellationToken>());
 
             //Assert
 

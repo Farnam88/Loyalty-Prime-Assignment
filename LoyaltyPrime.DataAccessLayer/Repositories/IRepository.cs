@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using LoyaltyPrime.DataAccessLayer.Specifications;
-using LoyaltyPrime.Models.Bases;
 using LoyaltyPrime.Models.Bases.CommonEntities;
 
 namespace LoyaltyPrime.DataAccessLayer.Repositories

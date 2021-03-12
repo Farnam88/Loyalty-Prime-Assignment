@@ -3,14 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using LoyaltyPrime.DataAccessLayer.Specifications;
-using LoyaltyPrime.Models.Bases;
 using LoyaltyPrime.Models.Bases.CommonEntities;
 
 namespace LoyaltyPrime.DataAccessLayer.Infrastructure.Specifications
 {
     public abstract class BaseSpecification<TEntity> : ISpecification<TEntity> where TEntity : BaseModel
     {
-        protected BaseSpecification(Expression<Func<TEntity, bool>> criteria = null!)
+        protected BaseSpecification(Expression<Func<TEntity, bool>>? criteria = null!)
         {
             Criteria = criteria;
         }
@@ -41,7 +40,7 @@ namespace LoyaltyPrime.DataAccessLayer.Infrastructure.Specifications
         public Expression<Func<TEntity, TResult>> Selector { get; private set; }
 
         protected BaseSpecification(Expression<Func<TEntity, TResult>> selector,
-            Expression<Func<TEntity, bool>> criteria = null!
+            Expression<Func<TEntity, bool>>? criteria = null!
         )
         {
             Criteria = criteria;

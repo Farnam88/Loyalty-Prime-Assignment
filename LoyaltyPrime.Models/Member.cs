@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
-using LoyaltyPrime.Models.Bases;
 using LoyaltyPrime.Models.Bases.CommonEntities;
 
 namespace LoyaltyPrime.Models

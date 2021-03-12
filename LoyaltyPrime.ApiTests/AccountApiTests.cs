@@ -1,13 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentAssertions;
 using LoyaltyPrime.Models.Bases.Enums;
 using LoyaltyPrime.Services.Contexts.AccountServices.Commands;
 using LoyaltyPrime.Services.Contexts.AccountServices.Dto;
 using LoyaltyPrime.Services.Contexts.AccountServices.Queries;
 using LoyaltyPrime.Shared.Utilities.Common.Data;
+using LoyaltyPrime.WebApi.Base;
 using LoyaltyPrime.WebApi.Controllers;
 using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Routing;
 using Moq;
 using Xunit;
 
@@ -89,6 +98,24 @@ namespace LoyaltyPrime.ApiTests
                 s.Send(It.IsAny<CreateAccountCommand>(), It.IsAny<CancellationToken>()));
         }
 
+        [Fact]
+        public void ApiExceptionFilterAttribute_ShouldReturnObjectResult_WhenExceptionOccurred()
+        {
+            //Arrange
+            var httpContext = new DefaultHttpContext();
+            var context = new ExceptionContext(
+                new ActionContext(httpContext, new RouteData(), new ActionDescriptor(), new ModelStateDictionary()),
+                new List<IFilterMetadata>()) {Exception = new Exception("Tes Exception")};
+
+            var sut = new ApiExceptionFilterAttribute();
+
+            //Act
+            sut.OnException(context);
+
+            //Assert
+            context.Result.Should().NotBeNull()
+                .And.BeOfType<ObjectResult>();
+        }
 
         public IList<AccountDto> AccountDtoSet()
         {

@@ -13,6 +13,7 @@
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.5.2" />
       <PackageReference Include="MediatR" Version="9.0.0" />
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
     </ItemGroup>
 
     <ItemGroup>

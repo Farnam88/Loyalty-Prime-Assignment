@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using LoyaltyPrime.DataAccessLayer;
-using LoyaltyPrime.DataAccessLayer.Shared.Utilities.Common.Data;
+using LoyaltyPrime.Shared.Utilities.Common.Data;
 using LoyaltyPrime.Services.Common.Base;
 using LoyaltyPrime.Services.Common.Specifications.AccountSpec;
 using LoyaltyPrime.Services.Contexts.AccountServices.Dto;
@@ -9,9 +9,9 @@ using MediatR;
 
 namespace LoyaltyPrime.Services.Contexts.AccountServices.Queries
 {
-    public class GetMemberAccountQuery : IRequest<ResultModel<MemberAccountsDto>>
+    public class GetMemberAccountQuery : IRequest<ResultModel<AccountDto>>
     {
-        public GetMemberAccountQuery(int accountId, int memberId)
+        public GetMemberAccountQuery(int memberId, int accountId)
         {
             AccountId = accountId;
             MemberId = memberId;
@@ -21,21 +21,21 @@ namespace LoyaltyPrime.Services.Contexts.AccountServices.Queries
         public int MemberId { get; set; }
     }
 
-    public class GetAccountByIdQueryHandler : BaseRequestHandler<GetMemberAccountQuery, ResultModel<MemberAccountsDto>>
+    public class GetAccountByIdQueryHandler : BaseRequestHandler<GetMemberAccountQuery, ResultModel<AccountDto>>
     {
-        public GetAccountByIdQueryHandler(IUnitOfWork unitOfWork):base(unitOfWork)
+        public GetAccountByIdQueryHandler(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
 
-        public override async Task<ResultModel<MemberAccountsDto>> Handle(GetMemberAccountQuery request,
+        public override async Task<ResultModel<AccountDto>> Handle(GetMemberAccountQuery request,
             CancellationToken cancellationToken)
         {
             AccountsDtoSpecification specification =
-                new AccountsDtoSpecification(request.AccountId, request.MemberId);
+                new AccountsDtoSpecification(request.MemberId, request.AccountId);
             var account = await Uow.AccountRepository.FirstOrDefaultAsync(specification, cancellationToken);
             if (account != null)
-                return ResultModel<MemberAccountsDto>.Success(200, "", account);
-            return ResultModel<MemberAccountsDto>.Fail(400, "Requested Account not found");
+                return ResultModel<AccountDto>.Success(200, "", account);
+            return ResultModel<AccountDto>.Fail(400, "Requested Account not found");
         }
     }
 }

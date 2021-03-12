@@ -5,9 +5,9 @@ namespace LoyaltyPrime.Models
 {
     public class CompanyRedeem : BaseModel
     {
-        public CompanyRedeem(double redeemPoint)
+        
+        public CompanyRedeem()
         {
-            RedeemPoints = redeemPoint;
         }
 
         public CompanyRedeem(string redeemTitle, int companyId, double redeemPoint)

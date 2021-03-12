@@ -1,9 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using LoyaltyPrime.DataAccessLayer;
-using LoyaltyPrime.DataAccessLayer.Shared.Utilities.Common.Data;
 using LoyaltyPrime.Models;
-using LoyaltyPrime.Services.Common.Base;
 using MediatR;
 
 namespace LoyaltyPrime.Services.Contexts.AccountRewardHistoryServices.Notifications

@@ -5,6 +5,10 @@ namespace LoyaltyPrime.Models
 {
     public class Company : BaseModel
     {
+        public Company()
+        {
+            
+        }
         public Company(string name)
         {
             Name = name;

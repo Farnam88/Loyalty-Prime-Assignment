@@ -6,6 +6,7 @@ using LoyaltyPrime.DataAccessLayer.Repositories;
 using LoyaltyPrime.DataAccessLayer.Specifications;
 using LoyaltyPrime.Models;
 using LoyaltyPrime.Models.Bases.Enums;
+using LoyaltyPrime.Services.Common.Specifications.AccountSpec;
 using LoyaltyPrime.Services.Contexts.AccountServices.Commands;
 using LoyaltyPrime.Services.Contexts.AccountServices.Dto;
 using LoyaltyPrime.Services.Contexts.AccountServices.Queries;
@@ -20,13 +21,16 @@ namespace LoyaltyPrime.Services.Tests
 
         private readonly Mock<IUnitOfWork> _unitOfWorkMock = new Mock<IUnitOfWork>();
 
-        [Fact]
-        public async Task CreateAccount_ShouldCreateAccountForAnSpecificUser_IfCompanyAndMemberExists()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task CreateAccount_ShouldCreateAccountForAnSpecificUser_IfCompanyAndMemberExists(
+            bool existingAccount)
         {
             //Arrange
             var company = new Company("Burger King") {Id = 1};
             var member = new Member("Farnam") {Id = 1};
-            var account = new Account(member.Id, company.Id, 0, AccountState.Active);
+            var account = new Account(member.Id, company.Id, 0, AccountStatus.Active);
 
             Mock<IRepository<Company>> companyRepositoryMock = new Mock<IRepository<Company>>();
             Mock<IRepository<Member>> memberRepositoryMock = new Mock<IRepository<Member>>();
@@ -39,6 +43,11 @@ namespace LoyaltyPrime.Services.Tests
             memberRepositoryMock.Setup(s =>
                     s.GetByIdAsync(member.Id, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(member)
+                .Verifiable();
+
+            _accountRepositoryMock.Setup(s =>
+                    s.FirstOrDefaultAsync(It.IsAny<AccountEntitySpecification>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(existingAccount ? account : (Account) null)
                 .Verifiable();
 
             _accountRepositoryMock.Setup(s =>
@@ -58,6 +67,7 @@ namespace LoyaltyPrime.Services.Tests
                 .Verifiable();
 
             CreateAccountCommand command = new CreateAccountCommand(member.Id, company.Id);
+
             CreateAccountCommandHandler sut = new CreateAccountCommandHandler(_unitOfWorkMock.Object);
 
             //Act
@@ -66,17 +76,37 @@ namespace LoyaltyPrime.Services.Tests
             //Assert
 
             _unitOfWorkMock.Verify(v => v.MemberRepository);
+
             _unitOfWorkMock.Verify(v => v.AccountRepository);
+
             _unitOfWorkMock.Verify(v => v.CompanyRepository);
+
             companyRepositoryMock.Verify(v =>
                 v.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
+
             memberRepositoryMock.Verify(v =>
                 v.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
-            _accountRepositoryMock.Verify(v => v.AddAsync(It.IsAny<Account>(), It.IsAny<CancellationToken>()));
-            _unitOfWorkMock.Verify(v => v.CommitAsync(It.IsAny<CancellationToken>()));
+            if (existingAccount)
+            {
+                _accountRepositoryMock.Verify(s =>
+                    s.FirstOrDefaultAsync(It.IsAny<AccountEntitySpecification>(), It.IsAny<CancellationToken>()));
+                Assert.False(result.IsSucceeded);
+                Assert.Equal(404, result.StatusCode);
+            }
 
-            Assert.True(result.IsSucceeded);
-            Assert.Equal(201, result.StatusCode);
+            if (!existingAccount)
+            {
+                _accountRepositoryMock.Verify(s =>
+                    s.FirstOrDefaultAsync(It.IsAny<AccountEntitySpecification>(), It.IsAny<CancellationToken>()));
+
+                _accountRepositoryMock.Verify(v =>
+                    v.AddAsync(It.IsAny<Account>(), It.IsAny<CancellationToken>()));
+
+                _unitOfWorkMock.Verify(v => v.CommitAsync(It.IsAny<CancellationToken>()));
+
+                Assert.True(result.IsSucceeded);
+                Assert.Equal(201, result.StatusCode);
+            }
         }
 
         [Theory]
@@ -126,84 +156,23 @@ namespace LoyaltyPrime.Services.Tests
 
             Assert.Equal(expectedResult, result.IsSucceeded);
         }
-        // [Fact]
-        // public async Task CreateAccount_ShouldFail_IfCompanyNotExists()
-        // {
-        //     //Arrange
-        //
-        //     var member = new Member("Farnam") {Id = 1};
-        //     Mock<IRepository<Company>> companyRepositoryMock = new Mock<IRepository<Company>>();
-        //     Mock<IRepository<Member>> memberRepositoryMock = new Mock<IRepository<Member>>();
-        //
-        //     companyRepositoryMock.Setup(s =>
-        //             s.FirstOrDefaultAsync(It.IsAny<ISpecification<Company>>(), It.IsAny<CancellationToken>()))
-        //         .ReturnsAsync((Company) null).Verifiable();
-        //
-        //     memberRepositoryMock.Setup(s =>
-        //             s.FirstOrDefaultAsync(It.IsAny<ISpecification<Member>>(), It.IsAny<CancellationToken>()))
-        //         .ReturnsAsync(member).Verifiable();
-        //
-        //     _unitOfWorkMock.Setup(s => s.CompanyRepository).Returns(companyRepositoryMock.Object);
-        //     _unitOfWorkMock.Setup(s => s.MemberRepository).Returns(memberRepositoryMock.Object);
-        //
-        //     CreateAccountCommand command = new CreateAccountCommand(It.IsAny<int>(), It.IsAny<int>());
-        //     CreateAccountCommandHandler sut = new CreateAccountCommandHandler(_unitOfWorkMock.Object);
-        //     //Act
-        //     var result = await sut.Handle(command, It.IsAny<CancellationToken>());
-        //
-        //     //Assert
-        //     _unitOfWorkMock.Verify(v => v.CompanyRepository);
-        //     companyRepositoryMock.Verify(v =>
-        //         v.FirstOrDefaultAsync(It.IsAny<ISpecification<Company>>(), It.IsAny<CancellationToken>()));
-        //
-        //     Assert.False(result.IsSucceeded);
-        // }
-        //
-        // [Fact]
-        // public async Task CreateAccount_ShouldFail_IfMemberNotExists()
-        // {
-        //     //Arrange
-        //
-        //     var company = new Company("Burger King") {Id = 1};
-        //     Mock<IRepository<Company>> companyRepositoryMock = new Mock<IRepository<Company>>();
-        //     Mock<IRepository<Member>> memberRepositoryMock = new Mock<IRepository<Member>>();
-        //
-        //     companyRepositoryMock.Setup(s =>
-        //             s.FirstOrDefaultAsync(It.IsAny<ISpecification<Company>>(), It.IsAny<CancellationToken>()))
-        //         .ReturnsAsync(company).Verifiable();
-        //
-        //     memberRepositoryMock.Setup(s =>
-        //             s.FirstOrDefaultAsync(It.IsAny<ISpecification<Member>>(), It.IsAny<CancellationToken>()))
-        //         .ReturnsAsync((Member) null).Verifiable();
-        //
-        //     _unitOfWorkMock.Setup(s => s.CompanyRepository).Returns(companyRepositoryMock.Object);
-        //     _unitOfWorkMock.Setup(s => s.MemberRepository).Returns(memberRepositoryMock.Object);
-        //
-        //     CreateAccountCommand command = new CreateAccountCommand(It.IsAny<int>(), It.IsAny<int>());
-        //     CreateAccountCommandHandler sut = new CreateAccountCommandHandler(_unitOfWorkMock.Object);
-        //     //Act
-        //     var result = await sut.Handle(command, It.IsAny<CancellationToken>());
-        //
-        //     //Assert
-        //     _unitOfWorkMock.Verify(v => v.MemberRepository);
-        //     memberRepositoryMock.Verify(v =>
-        //         v.FirstOrDefaultAsync(It.IsAny<ISpecification<Member>>(), It.IsAny<CancellationToken>()));
-        //
-        //     Assert.False(result.IsSucceeded);
-        // }
 
-        [Fact]
-        public async Task GetMemberActiveAccounts_ShouldReturnSetOfActiveAccount_IfMemberAndAccountExists()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task GetMemberAccounts_ShouldReturnSetOfAccount_IfMemberAndAccountExists(
+            bool withResultSet)
         {
             //Arrange
             int memberId = 1;
             var member = new Member("Farnam") {Id = memberId};
             var activeAccounts = CreateDtoSet();
+            var emptySet = new List<AccountDto>();
 
             _accountRepositoryMock.Setup(s =>
-                    s.GetAllAsync(It.IsAny<ISpecification<Account, MemberAccountsDto>>(),
+                    s.GetAllAsync(It.IsAny<ISpecification<Account, AccountDto>>(),
                         It.IsAny<CancellationToken>()))
-                .ReturnsAsync(activeAccounts).Verifiable();
+                .ReturnsAsync(withResultSet ? activeAccounts : emptySet).Verifiable();
 
             Mock<IRepository<Member>> memberRepositoryMock = new Mock<IRepository<Member>>();
             memberRepositoryMock.Setup(s =>
@@ -213,9 +182,9 @@ namespace LoyaltyPrime.Services.Tests
             _unitOfWorkMock.Setup(s => s.AccountRepository).Returns(_accountRepositoryMock.Object);
             _unitOfWorkMock.Setup(s => s.MemberRepository).Returns(memberRepositoryMock.Object);
 
-            GetMemberActiveAccountsQuery query = new GetMemberActiveAccountsQuery(memberId);
+            GetMemberAccountsQuery query = new GetMemberAccountsQuery(memberId);
 
-            GetMemberActiveAccountsQueryHandler sut = new GetMemberActiveAccountsQueryHandler(_unitOfWorkMock.Object);
+            GetMemberAccountsQueryHandler sut = new GetMemberAccountsQueryHandler(_unitOfWorkMock.Object);
 
             //Act
 
@@ -229,29 +198,33 @@ namespace LoyaltyPrime.Services.Tests
                 v.FirstOrDefaultAsync(It.IsAny<ISpecification<Member>>(), It.IsAny<CancellationToken>()));
 
             _accountRepositoryMock.Verify(v =>
-                v.GetAllAsync(It.IsAny<ISpecification<Account, MemberAccountsDto>>(),
+                v.GetAllAsync(It.IsAny<ISpecification<Account, AccountDto>>(),
                     It.IsAny<CancellationToken>()));
 
-            Assert.True(result.IsSucceeded && result.StatusCode == 200);
+            Assert.True(result.IsSucceeded);
 
-            Assert.NotNull(result.Result);
+            if (withResultSet)
+                Assert.True(result.StatusCode == 200 && result.Result != null);
+            if (!withResultSet)
+                Assert.True(result.StatusCode == 204 && result.Result == null);
         }
 
         [Fact]
         public async Task GetAccountById_ShouldReturnAccount_IfAccountExists()
         {
             //Arrange
-            var account = new MemberAccountsDto(1, 1, 1, "Burger King",
-                "Farnam", 100, AccountState.Active.ToString());
+            var account = new AccountDto(1, 1, 1, "Burger King",
+                "Farnam", 100, AccountStatus.Active.ToString());
 
             _accountRepositoryMock.Setup(s =>
-                    s.FirstOrDefaultAsync(It.IsAny<ISpecification<Account, MemberAccountsDto>>(),
+                    s.FirstOrDefaultAsync(It.IsAny<ISpecification<Account, AccountDto>>(),
                         It.IsAny<CancellationToken>()))
-                .ReturnsAsync(account).Verifiable();
+                .ReturnsAsync(account)
+                .Verifiable();
 
             _unitOfWorkMock.Setup(s => s.AccountRepository).Returns(_accountRepositoryMock.Object);
 
-            GetMemberAccountQuery query = new GetMemberAccountQuery(1, 1);
+            GetMemberAccountQuery query = new GetMemberAccountQuery(account.MemberId, account.AccountId);
             GetAccountByIdQueryHandler sut = new GetAccountByIdQueryHandler(_unitOfWorkMock.Object);
 
             //Act
@@ -260,7 +233,7 @@ namespace LoyaltyPrime.Services.Tests
             //Assert
             _unitOfWorkMock.Verify(v => v.AccountRepository);
             _accountRepositoryMock.Verify(s =>
-                s.FirstOrDefaultAsync(It.IsAny<ISpecification<Account, MemberAccountsDto>>(),
+                s.FirstOrDefaultAsync(It.IsAny<ISpecification<Account, AccountDto>>(),
                     It.IsAny<CancellationToken>()));
 
             Assert.True(result.IsSucceeded && result.StatusCode == 200);
@@ -268,14 +241,14 @@ namespace LoyaltyPrime.Services.Tests
             Assert.NotNull(result.Result);
         }
 
-        private List<MemberAccountsDto> CreateDtoSet()
+        private List<AccountDto> CreateDtoSet()
         {
-            return new List<MemberAccountsDto>
+            return new List<AccountDto>
             {
-                new MemberAccountsDto
+                new AccountDto
                 {
                     Balance = 100,
-                    State = AccountState.Active.ToString(),
+                    Status = AccountStatus.Active.ToString(),
                     AccountId = 1,
                     CompanyId = 1,
                     CompanyName = "Burger King"

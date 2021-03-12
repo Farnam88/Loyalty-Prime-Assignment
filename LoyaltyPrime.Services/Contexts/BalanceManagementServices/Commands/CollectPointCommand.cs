@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using LoyaltyPrime.DataAccessLayer;
-using LoyaltyPrime.DataAccessLayer.Shared.Utilities.Common.Data;
+using LoyaltyPrime.Shared.Utilities.Common.Data;
 using LoyaltyPrime.Models;
 using LoyaltyPrime.Services.Common.Base;
 using LoyaltyPrime.Services.Common.Specifications.AccountSpec;
@@ -54,16 +54,18 @@ namespace LoyaltyPrime.Services.Contexts.BalanceManagementServices.Commands
             if (account == null)
                 return ResultModel<double>.NotFound(nameof(Account));
 
-            account.Balance = account.Balance + companyReward.GainedPoints;
+            account.Balance = account.Balance + companyReward.RewardPoints;
 
             Uow.AccountRepository.Update(account);
 
             await Uow.CommitAsync(cancellationToken);
 
-            await _mediator.Publish(new PlaceAccountRewardHistoryNotification(request.CompanyRewardId, request.AccountId,
-                companyReward.GainedPoints), cancellationToken);
+            await _mediator.Publish(new PlaceAccountRewardHistoryNotification(request.CompanyRewardId,
+                request.AccountId,
+                companyReward.RewardPoints), cancellationToken);
 
-            return ResultModel<double>.Success(204, "points added to the account", account.Balance);
+            return ResultModel<double>.Success(200, $"{companyReward.RewardPoints} points added to the account balance",
+                account.Balance);
         }
     }
 }

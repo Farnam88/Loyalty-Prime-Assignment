@@ -9,17 +9,17 @@ namespace LoyaltyPrime.Models
         {
         }
 
-        public CompanyReward(string rewardTitle, int companyId, double gainedPoints)
+        public CompanyReward(string rewardTitle, int companyId, double rewardPoints)
         {
             RewardTitle = rewardTitle;
             CompanyId = companyId;
-            GainedPoints = gainedPoints;
+            RewardPoints = rewardPoints;
             AccountRewardHistories = new HashSet<AccountRewardHistory>();
         }
 
         public string RewardTitle { get; set; }
         public int CompanyId { get; set; }
-        public double GainedPoints { get; set; }
+        public double RewardPoints { get; set; }
         public virtual Company Company { get; set; }
         public virtual ICollection<AccountRewardHistory> AccountRewardHistories { get; set; }
     }

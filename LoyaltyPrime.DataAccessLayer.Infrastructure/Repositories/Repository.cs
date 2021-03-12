@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using LoyaltyPrime.DataAccessLayer.Repositories;
-using LoyaltyPrime.DataAccessLayer.Shared.Utilities.Extensions;
+using LoyaltyPrime.Shared.Utilities.Extensions;
 using LoyaltyPrime.DataAccessLayer.Specifications;
 using LoyaltyPrime.DataLayer;
 using LoyaltyPrime.Models.Bases.CommonEntities;
@@ -68,8 +68,8 @@ namespace LoyaltyPrime.DataAccessLayer.Infrastructure.Repositories
 
         public async Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken = new CancellationToken())
         {
-            TEntity entity = await _entities.FindAsync(id, cancellationToken);
-            Preconditions.CheckNull(entity);
+            TEntity entity = await _entities
+                .FirstOrDefaultAsync(f => f.Id == id, cancellationToken);
             return entity;
         }
 
@@ -81,7 +81,8 @@ namespace LoyaltyPrime.DataAccessLayer.Infrastructure.Repositories
         public async Task AddRangeAsync(IList<TEntity> entities, CancellationToken cancellationToken = default)
         {
             Preconditions.CheckNull(entities);
-            await _entities.AddRangeAsync(entities, cancellationToken);
+            if (entities.Any())
+                await _entities.AddRangeAsync(entities, cancellationToken);
         }
 
         public void Update(TEntity entity)

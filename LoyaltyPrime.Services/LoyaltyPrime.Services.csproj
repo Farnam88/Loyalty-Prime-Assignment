@@ -6,7 +6,6 @@
 
     <ItemGroup>
       <Folder Include="Contexts\AccountRedeemHistoryServices\Command" />
-      <Folder Include="Contexts\CompanyServices\Dtos" />
     </ItemGroup>
 
     <ItemGroup>
@@ -23,9 +22,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\LoyaltyPrime.DataAccessLayer.Infrastructure\LoyaltyPrime.DataAccessLayer.Infrastructure.csproj" />
-      <ProjectReference Include="..\LoyaltyPrime.DataAccessLayer.Shared.Utilities\LoyaltyPrime.DataAccessLayer.Shared.Utilities.csproj" />
       <ProjectReference Include="..\LoyaltyPrime.DataAccessLayer\LoyaltyPrime.DataAccessLayer.csproj" />
+      <ProjectReference Include="..\LoyaltyPrime.Shared.Utilities\LoyaltyPrime.Shared.Utilities.csproj" />
     </ItemGroup>
 
 </Project>

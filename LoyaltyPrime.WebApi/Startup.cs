@@ -1,6 +1,4 @@
-using LoyaltyPrime.DataAccessLayer.Infrastructure.Modules;
-using LoyaltyPrime.DataLayer.Modules;
-using LoyaltyPrime.Services.Modules;
+using LoyaltyPrime.WebApi.Modules;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,10 +20,7 @@ namespace LoyaltyPrime.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.AddDatalayer();
-            services.DataAccessLayer();
-            services.AddApplicationServices();
+            services.RegisterApplicationServices();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "LoyaltyPrime.WebApi", Version = "v1"});

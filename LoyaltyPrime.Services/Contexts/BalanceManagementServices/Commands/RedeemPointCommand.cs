@@ -2,13 +2,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using LoyaltyPrime.DataAccessLayer;
-using LoyaltyPrime.DataAccessLayer.Shared.Utilities.Common.Data;
+using LoyaltyPrime.Shared.Utilities.Common.Data;
 using LoyaltyPrime.Models;
 using LoyaltyPrime.Models.Bases.Enums;
 using LoyaltyPrime.Services.Common.Base;
 using LoyaltyPrime.Services.Common.Specifications.AccountSpec;
 using LoyaltyPrime.Services.Contexts.AccountRedeemHistoryServices.Notifications;
-using LoyaltyPrime.Services.Contexts.AccountRewardHistoryServices.Notifications;
 using MediatR;
 
 namespace LoyaltyPrime.Services.Contexts.BalanceManagementServices.Commands
@@ -53,14 +52,14 @@ namespace LoyaltyPrime.Services.Contexts.BalanceManagementServices.Commands
             if (account == null)
                 return ResultModel<double>.NotFound(nameof(Account));
             if (account.Balance < companyRedeem.RedeemPoints)
-                return ResultModel<double>.Fail(404, "Insufficient balance in your account",
+                return ResultModel<double>.Fail(400, "Insufficient balance in your account",
                     ErrorTypes.LogicalError, new Dictionary<string, string>
                     {
                         {"Current Balance", $"{account.Balance}"},
                         {"Requested Redeem", $"{companyRedeem.RedeemPoints}"}
                     });
-            if (account.AccountState == AccountState.Inactive)
-                return ResultModel<double>.Fail(404, "You can not redeem from an inactive account");
+            if (account.AccountStatus == AccountStatus.Inactive)
+                return ResultModel<double>.Fail(404, "could not redeem from an inactive account");
 
             account.Balance = account.Balance - companyRedeem.RedeemPoints;
 
@@ -72,7 +71,8 @@ namespace LoyaltyPrime.Services.Contexts.BalanceManagementServices.Commands
                 request.AccountId,
                 companyRedeem.RedeemPoints), cancellationToken);
 
-            return ResultModel<double>.Success(204, "points added to the account", account.Balance);
+            return ResultModel<double>.Success(200,
+                $"{companyRedeem.RedeemPoints} points redeemed from the account balance", account.Balance);
         }
     }
 }

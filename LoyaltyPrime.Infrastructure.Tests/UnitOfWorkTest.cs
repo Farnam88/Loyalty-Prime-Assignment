@@ -71,19 +71,32 @@ namespace LoyaltyPrime.Infrastructure.Tests
         {
             //Arrange
             var company = EntityGenerator.CreateCompany();
+
             var mockCompanyDbSet = new Mock<DbSet<Company>>();
-            mockCompanyDbSet.Setup(s => s.AddAsync(company, It.IsAny<CancellationToken>()));
-            mockCompanyDbSet.Setup(s => s.FindAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(company);
-            _mockContext.Setup(s => s.Set<Company>()).Returns(mockCompanyDbSet.Object);
+
+            mockCompanyDbSet.Setup(s => s.AddAsync(company, It.IsAny<CancellationToken>()))
+                .Verifiable();
+
+            _mockContext.Setup(s => s.Set<Company>())
+                .Returns(mockCompanyDbSet.Object)
+                .Verifiable();
+
+            _mockContext.Setup(s => s.SaveChangesAsync(It.IsAny<CancellationToken>()))
+                .Verifiable();
 
             //Act
             _sut = new UnitOfWork(_mockContext.Object);
+
             await _sut.CompanyRepository.AddAsync(company);
+
             await _sut.CommitAsync(It.IsAny<CancellationToken>());
-            var fetchCompany = await _sut.CompanyRepository.GetByIdAsync(company.Id, It.IsAny<CancellationToken>());
+
             //Assert
-            Assert.NotNull(fetchCompany);
+            mockCompanyDbSet.Verify(s => s.AddAsync(It.IsAny<Company>(), It.IsAny<CancellationToken>()));
+            
+            _mockContext.Verify(s => s.Set<Company>());
+
+            _mockContext.Verify(s => s.SaveChangesAsync(It.IsAny<CancellationToken>()));
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using LoyaltyPrime.DataAccessLayer;
 using LoyaltyPrime.DataAccessLayer.Repositories;
-using LoyaltyPrime.DataAccessLayer.Shared.Utilities.Common.Data;
 using LoyaltyPrime.DataAccessLayer.Specifications;
 using LoyaltyPrime.Models;
 using LoyaltyPrime.Models.Bases.Enums;
@@ -26,7 +25,7 @@ namespace LoyaltyPrime.Services.Tests
             CollectPoints_ShouldAddPointToAccountAndPublishAccountRewardHistory_IfMemberAndAccountAndCompanyRewardExists()
         {
             //Arrange
-            var account = new Account(1, 1, 100, AccountState.Active);
+            var account = new Account(1, 1, 100, AccountStatus.Active);
 
             var companyReward = new CompanyReward("International Flight", 1, 50) {Id = 1};
 
@@ -59,7 +58,7 @@ namespace LoyaltyPrime.Services.Tests
                 .Verifiable();
 
             var accountRewardHistoryNotification =
-                new PlaceAccountRewardHistoryNotification(companyReward.Id, account.Id, companyReward.GainedPoints);
+                new PlaceAccountRewardHistoryNotification(companyReward.Id, account.Id, companyReward.RewardPoints);
 
             _mediatorMock.Setup(s => s.Publish(accountRewardHistoryNotification, It.IsAny<CancellationToken>()))
                 .Verifiable();
@@ -94,6 +93,7 @@ namespace LoyaltyPrime.Services.Tests
                 It.IsAny<CancellationToken>()));
 
             Assert.True(result.IsSucceeded);
+            Assert.True(result.StatusCode==200);
             Assert.Equal(150, result.Result);
         }
 
@@ -102,7 +102,7 @@ namespace LoyaltyPrime.Services.Tests
             RedeemPoints_ShouldRedeemPointFromAccountAndPublishAccountRedeemHistory_IfMemberAndAccountAndCompanyRedeemdExists()
         {
             //Arrange
-            var account = new Account(1, 1, 100, AccountState.Active);
+            var account = new Account(1, 1, 100, AccountStatus.Active);
 
             var companyRedeem = new CompanyRedeem("Free Coffee", 1, 50) {Id = 1};
 
@@ -171,6 +171,7 @@ namespace LoyaltyPrime.Services.Tests
                 It.IsAny<CancellationToken>()));
 
             Assert.True(result.IsSucceeded);
+            Assert.True(result.StatusCode==200);
             Assert.Equal(50, result.Result);
         }
     }

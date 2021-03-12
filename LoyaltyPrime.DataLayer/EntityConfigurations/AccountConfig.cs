@@ -15,14 +15,21 @@ namespace LoyaltyPrime.DataLayer.EntityConfigurations
                 .IsRequired()
                 .HasDefaultValue(0);
 
-            builder.Property(p => p.AccountState)
+            builder.Property(p => p.AccountStatus)
                 .IsRequired()
-                .HasDefaultValue(AccountState.Active);
+                .HasDefaultValue(AccountStatus.Active);
 
             builder.Property(p => p.RowVersion)
                 .IsRequired()
                 .IsRowVersion()
                 .ValueGeneratedOnAddOrUpdate();
+
+            builder.HasIndex(i => new
+                {
+                    i.CompanyId,
+                    i.MemberId
+                }).IsUnique()
+                .HasDatabaseName("Uix_CompanyMemberAccountIndex");
         }
     }
 }

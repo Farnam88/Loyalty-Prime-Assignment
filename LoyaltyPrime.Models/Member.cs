@@ -5,6 +5,10 @@ namespace LoyaltyPrime.Models
 {
     public class Member : BaseCreationModel
     {
+        public Member()
+        {
+        }
+
         public Member(string name, string address = "")
         {
             Name = name;

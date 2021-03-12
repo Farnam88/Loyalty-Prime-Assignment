@@ -10,12 +10,20 @@ namespace LoyaltyPrime.Models
         {
         }
 
-        public Account(int memberId, int companyId, double balance, AccountState accountState)
+        public Account(Member member, Company company, double balance, AccountStatus accountStatus)
+        {
+            Member = member;
+            Company = company;
+            Balance = balance;
+            AccountStatus = accountStatus;
+        }
+
+        public Account(int memberId, int companyId, double balance, AccountStatus accountStatus)
         {
             MemberId = memberId;
             CompanyId = companyId;
             Balance = balance;
-            AccountState = accountState;
+            AccountStatus = accountStatus;
             AccountRedeemHistories = new HashSet<AccountRedeemHistory>();
             AccountRewardHistories = new HashSet<AccountRewardHistory>();
         }
@@ -23,7 +31,7 @@ namespace LoyaltyPrime.Models
         public int MemberId { get; set; }
         public int CompanyId { get; set; }
         public double Balance { get; set; }
-        public AccountState AccountState { get; set; }
+        public AccountStatus AccountStatus { get; set; }
 
         public virtual Member Member { get; set; }
         public virtual Company Company { get; set; }

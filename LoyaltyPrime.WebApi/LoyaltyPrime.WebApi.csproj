@@ -10,7 +10,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\LoyaltyPrime.DataAccessLayer.Infrastructure\LoyaltyPrime.DataAccessLayer.Infrastructure.csproj" />
-      <ProjectReference Include="..\LoyaltyPrime.DataLayer.Infrastructure\LoyaltyPrime.DataLayer.Infrastructure.csproj" />
       <ProjectReference Include="..\LoyaltyPrime.Services\LoyaltyPrime.Services.csproj" />
     </ItemGroup>
 

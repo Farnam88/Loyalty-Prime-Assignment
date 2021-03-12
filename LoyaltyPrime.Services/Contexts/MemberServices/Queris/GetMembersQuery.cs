@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using LoyaltyPrime.DataAccessLayer;
-using LoyaltyPrime.DataAccessLayer.Shared.Utilities.Common.Data;
+using LoyaltyPrime.Shared.Utilities.Common.Data;
 using LoyaltyPrime.Services.Common.Base;
 using LoyaltyPrime.Services.Common.Specifications.MemberSpec;
 using LoyaltyPrime.Services.Contexts.MemberServices.Dto;
@@ -26,7 +27,9 @@ namespace LoyaltyPrime.Services.Contexts.MemberServices.Queris
             GetMembersDtoSpecification specification = new GetMembersDtoSpecification();
 
             var result = await Uow.MemberRepository.GetAllAsync(specification, cancellationToken);
-            return ResultModel<IList<MemberDto>>.Success(200, string.Empty, result);
+            if (result.Any())
+                return ResultModel<IList<MemberDto>>.Success(200, string.Empty, result);
+            return ResultModel<IList<MemberDto>>.Success(204);
         }
     }
 }

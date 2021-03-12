@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using LoyaltyPrime.DataAccessLayer;
-using LoyaltyPrime.DataAccessLayer.Shared.Utilities.Common.Data;
+using LoyaltyPrime.Shared.Utilities.Common.Data;
 using LoyaltyPrime.Models;
 using LoyaltyPrime.Services.Common.Base;
 using MediatR;
@@ -33,12 +33,17 @@ namespace LoyaltyPrime.Services.Contexts.CompanyRewardServices.Commands
             CancellationToken cancellationToken)
         {
             var company = await Uow.CompanyRepository.GetByIdAsync(request.CompanyId, cancellationToken);
+            
             if (company == null)
                 return ResultModel<int>.NotFound(nameof(Company));
+            
             var companyReward =
                 new CompanyReward(request.RewardTitle, request.CompanyId, request.RewardPoints);
+            
             await Uow.CompanyRewardRepository.AddAsync(companyReward, cancellationToken);
+            
             await Uow.CommitAsync(cancellationToken);
+            
             return ResultModel<int>.Success(201, $"Company Reward {companyReward.RewardTitle} created",
                 companyReward.Id);
         }

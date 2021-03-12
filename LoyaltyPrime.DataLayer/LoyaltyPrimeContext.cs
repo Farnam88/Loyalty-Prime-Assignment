@@ -1,4 +1,4 @@
-﻿using LoyaltyPrime.DataAccessLayer.Shared.Utilities.Extensions;
+﻿using LoyaltyPrime.Shared.Utilities.Extensions;
 using LoyaltyPrime.DataLayer.EntityConfigurations;
 using LoyaltyPrime.Models;
 using Microsoft.EntityFrameworkCore;

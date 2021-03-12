@@ -1,23 +1,28 @@
 ﻿using System;
-using LoyaltyPrime.DataAccessLayer.Shared.Utilities.Extensions;
+using System.Threading.Tasks;
+using LoyaltyPrime.Models.Bases.Enums;
+using LoyaltyPrime.Shared.Utilities.Extensions;
 using Xunit;
 
 namespace LoyaltyPrime.Infrastructure.Tests
 {
     public class ExtensionsHelper
     {
-        [Fact]
-        public void PreconditionCheckNull_ShouldThrowArgumentNullException_WhenObjectIsNull()
+        [Theory]
+        [InlineData("input Object", true)]
+        [InlineData("", true)]
+        [InlineData("", false)]
+        public void PreconditionCheckNull_ShouldThrowArgumentNullException_WhenObjectIsNull(string name,
+            bool nullObject)
         {
-            var obj = (object) null;
-            Assert.Throws<ArgumentNullException>(() => Preconditions.CheckNull(obj));
-        }
+            //Arrange
+            Object obj = new object();
 
-        [Fact]
-        public void PreconditionCheckNull_ShouldThrowArgumentNullExceptionWithMessage_WhenObjectIsNull()
-        {
-            var obj = (object) null;
-            Assert.Throws<ArgumentNullException>(() => Preconditions.CheckNull(obj, "entry object"));
+            //Act
+            if (nullObject)
+                Assert.Throws<ArgumentNullException>(() => Preconditions.CheckNull((object) null, name));
+            if (!nullObject)
+                Preconditions.CheckNull(obj);
         }
 
         [Theory]
@@ -26,29 +31,97 @@ namespace LoyaltyPrime.Infrastructure.Tests
         [InlineData(null)]
         public void HasString_ShouldReturnFalse_WhenStringDoesNotHaveValue(string str)
         {
-            Assert.False(StringExtensions.HasString(str));
+            //Act
+
+            var result = StringExtensions.HasString(str);
+
+            //Assert
+
+            Assert.False(result);
         }
+
         [Theory]
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
         public void ContainsString_ShouldReturnFalse_WhenStringDoesNotHaveValue(string str)
         {
-            Assert.False(str.ContainsString());
+            //Act
+
+            var result = str.ContainsString();
+
+            //Assert
+
+            Assert.False(result);
         }
+
         [Theory]
         [InlineData("Farnam")]
         [InlineData(" Farnam ")]
         public void HasString_ShouldReturnTrue_WhenStringDoesNotHaveValue(string str)
         {
-            Assert.True(StringExtensions.HasString(str));
+            //Act
+
+            var result = StringExtensions.HasString(str);
+
+            //Assert
+
+            Assert.True(result);
         }
+
+        [Theory]
+        [InlineData("Farnam","FARNAM")]
+        [InlineData(" Farnam ","FARNAM")]
+        [InlineData(" Farnam jamshIDian ","FARNAM JAMSHIDIAN")]
+        public void ToNormalize_ShouldTrimAndUpperCaseString_OnSuccess(string str,string expectedResult)
+        {
+            //Act
+
+            var result = str.ToNormalize();
+
+            //Assert
+
+            Assert.Equal(expectedResult,result);
+        }
+        
         [Theory]
         [InlineData("Farnam")]
         [InlineData(" Farnam ")]
         public void ContainsString_ShouldReturnTrue_WhenStringDoesNotHaveValue(string str)
         {
-            Assert.True(str.ContainsString());
+            //Act
+
+            var result = str.ContainsString();
+
+            //Assert
+
+            Assert.True(result);
+        }
+
+        [Theory]
+        [InlineData("Active")]
+        [InlineData("AcTivE")]
+        [InlineData("active")]
+        public async Task StringToEnum_ShouldReturnEnum_whenStringIsConvertibleToEnum(string enumStr)
+        {
+            //Act
+            var enumResult = enumStr.StringToEnum<AccountStatus>();
+
+            //Assert
+            Assert.Equal(AccountStatus.Active, enumResult);
+        }
+
+        [Theory]
+        [InlineData("Farnam")]
+        [InlineData("FaRnam")]
+        [InlineData("farnam")]
+        public async Task StringToEnum_ShouldReturnDefaultEnumValue_whenStringIsNotConvertibleToEnum(string enumStr)
+        {
+            //Act
+            var enumResult = enumStr.StringToEnum<AccountStatus>();
+
+            //Assert
+            Assert.Equal(default, enumResult);
         }
     }
 }

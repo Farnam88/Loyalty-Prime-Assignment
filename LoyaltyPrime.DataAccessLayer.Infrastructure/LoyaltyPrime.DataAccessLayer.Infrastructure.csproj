@@ -5,14 +5,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\LoyaltyPrime.DataAccessLayer.Shared.Utilities\LoyaltyPrime.DataAccessLayer.Shared.Utilities.csproj" />
       <ProjectReference Include="..\LoyaltyPrime.DataAccessLayer\LoyaltyPrime.DataAccessLayer.csproj" />
       <ProjectReference Include="..\LoyaltyPrime.DataLayer\LoyaltyPrime.DataLayer.csproj" />
       <ProjectReference Include="..\LoyaltyPrime.Models\LoyaltyPrime.Models.csproj" />
+      <ProjectReference Include="..\LoyaltyPrime.Shared.Utilities\LoyaltyPrime.Shared.Utilities.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Repositories\Dtos" />
+      <Folder Include="Specifications" />
     </ItemGroup>
 
 </Project>

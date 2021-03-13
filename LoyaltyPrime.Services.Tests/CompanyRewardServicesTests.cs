@@ -5,6 +5,7 @@ using LoyaltyPrime.DataAccessLayer;
 using LoyaltyPrime.DataAccessLayer.Repositories;
 using LoyaltyPrime.DataAccessLayer.Specifications;
 using LoyaltyPrime.Models;
+using LoyaltyPrime.Services.Common.Specifications.CompanyRewardSpec;
 using LoyaltyPrime.Services.Contexts.CompanyRewardServices.Commands;
 using LoyaltyPrime.Services.Contexts.CompanyRewardServices.Dto;
 using LoyaltyPrime.Services.Contexts.CompanyRewardServices.Queries;
@@ -80,7 +81,7 @@ namespace LoyaltyPrime.Services.Tests
             Mock<IRepository<Company>> companyRepositoryMock = new Mock<IRepository<Company>>();
 
             _companyRewardRepositoryMock.Setup(s =>
-                    s.GetAllAsync(It.IsAny<ISpecification<CompanyReward, CompanyRewardDto>>(),
+                    s.GetAllAsync(It.IsAny<CompanyRewardsSpecification>(),
                         It.IsAny<CancellationToken>()))
                 .ReturnsAsync(companyRewardDto)
                 .Verifiable();
@@ -91,6 +92,7 @@ namespace LoyaltyPrime.Services.Tests
                 .Verifiable();
 
             _unitOfWorkMock.Setup(s => s.CompanyRepository).Returns(companyRepositoryMock.Object);
+            
             _unitOfWorkMock.Setup(s => s.CompanyRewardRepository).Returns(_companyRewardRepositoryMock.Object);
 
             GetCompanyRewardsQuery query = new GetCompanyRewardsQuery(company.Id);
@@ -111,7 +113,7 @@ namespace LoyaltyPrime.Services.Tests
                 v.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
 
             _companyRewardRepositoryMock.Verify(v =>
-                v.GetAllAsync(It.IsAny<ISpecification<CompanyReward, CompanyRewardDto>>(),
+                v.GetAllAsync(It.IsAny<CompanyRewardsSpecification>(),
                     It.IsAny<CancellationToken>()));
 
             Assert.True(result.IsSucceeded && result.StatusCode == 200);

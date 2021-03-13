@@ -4,6 +4,7 @@ using LoyaltyPrime.DataAccessLayer.Infrastructure.Modules;
 using LoyaltyPrime.DataLayer;
 using LoyaltyPrime.DataLayer.Modules;
 using LoyaltyPrime.Services.Modules;
+using Microsoft.AspNet.OData.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LoyaltyPrime.WebApi.Modules
@@ -16,6 +17,7 @@ namespace LoyaltyPrime.WebApi.Modules
             services.AddDatalayer();
             services.DataAccessLayer();
             services.AddApplicationServices();
+            services.AddOData();
         }
 
         public static async Task InitDataBase(this IServiceProvider serviceProvider)

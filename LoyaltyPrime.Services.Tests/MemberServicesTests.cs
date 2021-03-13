@@ -5,6 +5,7 @@ using LoyaltyPrime.DataAccessLayer;
 using LoyaltyPrime.DataAccessLayer.Repositories;
 using LoyaltyPrime.DataAccessLayer.Specifications;
 using LoyaltyPrime.Models;
+using LoyaltyPrime.Services.Common.Specifications.MemberSpec;
 using LoyaltyPrime.Services.Contexts.MemberServices.Commands;
 using LoyaltyPrime.Services.Contexts.MemberServices.Dto;
 using LoyaltyPrime.Services.Contexts.MemberServices.Queris;
@@ -47,7 +48,7 @@ namespace LoyaltyPrime.Services.Tests
             var emptySet = new List<MemberDto>();
 
             repositoryMock.Setup(s =>
-                    s.GetAllAsync(It.IsAny<ISpecification<Member, MemberDto>>(), It.IsAny<CancellationToken>()))
+                    s.GetAllAsync(It.IsAny<GetMembersDtoSpecification>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(withResultSet ? members : emptySet).Verifiable();
 
             _unitOfWorkMock.Setup(s => s.MemberRepository).Returns(repositoryMock.Object);
@@ -65,7 +66,7 @@ namespace LoyaltyPrime.Services.Tests
             _unitOfWorkMock.Verify(v => v.MemberRepository);
 
             repositoryMock.Verify(v =>
-                v.GetAllAsync(It.IsAny<ISpecification<Member, MemberDto>>(), It.IsAny<CancellationToken>()));
+                v.GetAllAsync(It.IsAny<GetMembersDtoSpecification>(), It.IsAny<CancellationToken>()));
 
             Assert.True(result.IsSucceeded);
             if (withResultSet)

@@ -102,7 +102,7 @@ namespace LoyaltyPrime.Infrastructure.Tests
         [InlineData("Active")]
         [InlineData("AcTivE")]
         [InlineData("active")]
-        public async Task StringToEnum_ShouldReturnEnum_whenStringIsConvertibleToEnum(string enumStr)
+        public void StringToEnum_ShouldReturnEnum_whenStringIsConvertibleToEnum(string enumStr)
         {
             //Act
             var enumResult = enumStr.StringToEnum<AccountStatus>();
@@ -115,7 +115,7 @@ namespace LoyaltyPrime.Infrastructure.Tests
         [InlineData("Farnam")]
         [InlineData("FaRnam")]
         [InlineData("farnam")]
-        public async Task StringToEnum_ShouldReturnDefaultEnumValue_whenStringIsNotConvertibleToEnum(string enumStr)
+        public void StringToEnum_ShouldReturnDefaultEnumValue_whenStringIsNotConvertibleToEnum(string enumStr)
         {
             //Act
             var enumResult = enumStr.StringToEnum<AccountStatus>();

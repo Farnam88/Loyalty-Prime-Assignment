@@ -5,6 +5,7 @@ using LoyaltyPrime.DataAccessLayer;
 using LoyaltyPrime.DataAccessLayer.Repositories;
 using LoyaltyPrime.DataAccessLayer.Specifications;
 using LoyaltyPrime.Models;
+using LoyaltyPrime.Services.Common.Specifications.CompanyRedeemSpec;
 using LoyaltyPrime.Services.Contexts.CompanyRedeemServices.Commands;
 using LoyaltyPrime.Services.Contexts.CompanyRedeemServices.Dto;
 using LoyaltyPrime.Services.Contexts.CompanyRedeemServices.Queries;
@@ -87,7 +88,7 @@ namespace LoyaltyPrime.Services.Tests
             Mock<IRepository<Company>> companyRepositoryMock = new Mock<IRepository<Company>>();
 
             _companyRedeemRepositoryMock.Setup(s =>
-                    s.GetAllAsync(It.IsAny<ISpecification<CompanyRedeem, CompanyRedeemDto>>(),
+                    s.GetAllAsync(It.IsAny<CompanyRedeemsSpecification>(),
                         It.IsAny<CancellationToken>()))
                 .ReturnsAsync(companyRedeemDto)
                 .Verifiable();
@@ -119,7 +120,7 @@ namespace LoyaltyPrime.Services.Tests
                 v.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
 
             _companyRedeemRepositoryMock.Verify(v =>
-                v.GetAllAsync(It.IsAny<ISpecification<CompanyRedeem, CompanyRedeemDto>>(),
+                v.GetAllAsync(It.IsAny<CompanyRedeemsSpecification>(),
                     It.IsAny<CancellationToken>()));
 
             Assert.True(result.IsSucceeded && result.StatusCode == 200);

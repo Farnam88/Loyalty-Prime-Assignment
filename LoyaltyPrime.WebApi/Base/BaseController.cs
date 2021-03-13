@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LoyaltyPrime.WebApi.Base
 {
+    [ProducesResponseType(typeof(ResultModel<object>), 500)]
     public class BaseController : ControllerBase
     {
         protected readonly IMediator Mediator;

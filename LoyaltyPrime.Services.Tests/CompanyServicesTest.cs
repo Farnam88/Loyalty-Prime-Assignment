@@ -3,8 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using LoyaltyPrime.DataAccessLayer;
 using LoyaltyPrime.DataAccessLayer.Repositories;
-using LoyaltyPrime.DataAccessLayer.Specifications;
 using LoyaltyPrime.Models;
+using LoyaltyPrime.Services.Common.Specifications.CompanySpec;
 using LoyaltyPrime.Services.Contexts.CompanyServices.Dtos;
 using LoyaltyPrime.Services.Contexts.CompanyServices.Queries;
 using Moq;
@@ -26,7 +26,7 @@ namespace LoyaltyPrime.Services.Tests
             var companyDtoSet = CompanyDtoSet();
             var emptySet = new List<CompanyDto>();
             _companyRepositoryMock.Setup(s =>
-                    s.GetAllAsync(It.IsAny<ISpecification<Company, CompanyDto>>(), It.IsAny<CancellationToken>()))
+                    s.GetAllAsync(It.IsAny<CompanyDtoSpecification>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(withResultSet ? companyDtoSet : emptySet)
                 .Verifiable();
 
@@ -47,7 +47,7 @@ namespace LoyaltyPrime.Services.Tests
             _unitOfWorkMock.Verify(v => v.CompanyRepository);
 
             _companyRepositoryMock.Verify(v =>
-                v.GetAllAsync(It.IsAny<ISpecification<Company, CompanyDto>>(), It.IsAny<CancellationToken>()));
+                v.GetAllAsync(It.IsAny<CompanyDtoSpecification>(), It.IsAny<CancellationToken>()));
 
             Assert.True(result.IsSucceeded);
             if (withResultSet)

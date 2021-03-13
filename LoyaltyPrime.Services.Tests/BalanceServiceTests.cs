@@ -5,6 +5,7 @@ using LoyaltyPrime.DataAccessLayer.Repositories;
 using LoyaltyPrime.DataAccessLayer.Specifications;
 using LoyaltyPrime.Models;
 using LoyaltyPrime.Models.Bases.Enums;
+using LoyaltyPrime.Services.Common.Specifications.AccountSpec;
 using LoyaltyPrime.Services.Contexts.AccountRedeemHistoryServices.Notifications;
 using LoyaltyPrime.Services.Contexts.AccountRewardHistoryServices.Notifications;
 using LoyaltyPrime.Services.Contexts.BalanceManagementServices.Commands;
@@ -40,7 +41,7 @@ namespace LoyaltyPrime.Services.Tests
                 .Verifiable();
 
             accountRepositoryMock.Setup(s =>
-                    s.FirstOrDefaultAsync(It.IsAny<ISpecification<Account>>(), It.IsAny<CancellationToken>()))
+                    s.FirstOrDefaultAsync(It.IsAny<AccountEntitySpecification>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(account)
                 .Verifiable();
 
@@ -82,7 +83,7 @@ namespace LoyaltyPrime.Services.Tests
                 v.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
 
             accountRepositoryMock.Verify(v =>
-                v.FirstOrDefaultAsync(It.IsAny<ISpecification<Account>>(), It.IsAny<CancellationToken>()));
+                v.FirstOrDefaultAsync(It.IsAny<AccountEntitySpecification>(), It.IsAny<CancellationToken>()));
 
             accountRepositoryMock.Verify(v =>
                 v.Update(It.IsAny<Account>()));
@@ -117,7 +118,7 @@ namespace LoyaltyPrime.Services.Tests
                 .Verifiable();
 
             accountRepositoryMock.Setup(s =>
-                    s.FirstOrDefaultAsync(It.IsAny<ISpecification<Account>>(), It.IsAny<CancellationToken>()))
+                    s.FirstOrDefaultAsync(It.IsAny<AccountEntitySpecification>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(account)
                 .Verifiable();
 
@@ -160,7 +161,7 @@ namespace LoyaltyPrime.Services.Tests
                 v.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
 
             accountRepositoryMock.Verify(v =>
-                v.FirstOrDefaultAsync(It.IsAny<ISpecification<Account>>(), It.IsAny<CancellationToken>()));
+                v.FirstOrDefaultAsync(It.IsAny<AccountEntitySpecification>(), It.IsAny<CancellationToken>()));
 
             accountRepositoryMock.Verify(v =>
                 v.Update(It.IsAny<Account>()));

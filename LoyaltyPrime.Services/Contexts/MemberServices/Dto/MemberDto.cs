@@ -2,10 +2,6 @@
 {
     public class MemberDto
     {
-        public MemberDto()
-        {
-        }
-
         public MemberDto(int id, string name, string address)
         {
             Id = id;

@@ -5,9 +5,7 @@ namespace LoyaltyPrime.Models
 {
     public class CompanyReward : BaseModel
     {
-        public CompanyReward()
-        {
-        }
+        public CompanyReward() { }
 
         public CompanyReward(string rewardTitle, int companyId, double rewardPoints)
         {

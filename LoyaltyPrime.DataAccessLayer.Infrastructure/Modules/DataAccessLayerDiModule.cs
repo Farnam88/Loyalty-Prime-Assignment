@@ -12,6 +12,7 @@ namespace LoyaltyPrime.DataAccessLayer.Infrastructure.Modules
             services.AddScoped<IRepository<Company>, Repository<Company>>();
             services.AddScoped<IRepository<Account>, Repository<Account>>();
             services.AddScoped<IRepository<Member>, Repository<Member>>();
+            services.AddScoped<ISearchRepository, SearchRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
     }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using LoyaltyPrime.Services.Contexts.AccountServices.Commands;
 using LoyaltyPrime.Services.Contexts.AccountServices.Dto;
 using LoyaltyPrime.Services.Contexts.AccountServices.Queries;
+using LoyaltyPrime.Shared.Utilities.Common.Data;
 using LoyaltyPrime.WebApi.Base;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ namespace LoyaltyPrime.WebApi.Controllers
 {
     [ApiController]
     [Route("api/account")]
+    [ProducesResponseType(typeof(ResultModel<object>), 500)]
     public class AccountController : BaseController
     {
         public AccountController(IMediator mediator) : base(mediator)

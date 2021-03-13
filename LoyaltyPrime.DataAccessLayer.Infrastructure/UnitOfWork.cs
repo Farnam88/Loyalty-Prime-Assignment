@@ -17,6 +17,7 @@ namespace LoyaltyPrime.DataAccessLayer.Infrastructure
         private IRepository<CompanyReward> _companyRewardRepository;
         private IRepository<AccountRedeemHistory> _accountRedeemHistoryRepository;
         private IRepository<AccountRewardHistory> _accountRewardHistoryRepository;
+        private ISearchRepository _searchRepository;
 
         public UnitOfWork(LoyaltyPrimeContext context)
         {
@@ -56,6 +57,11 @@ namespace LoyaltyPrime.DataAccessLayer.Infrastructure
         public IRepository<AccountRewardHistory> AccountRewardHistoryRepository
         {
             get { return _accountRewardHistoryRepository ??= new Repository<AccountRewardHistory>(_context); }
+        }
+
+        public ISearchRepository SearchRepository
+        {
+            get { return _searchRepository ??= new SearchRepository(_context); }
         }
 
         public async Task CommitAsync(CancellationToken cancellationToken = default)

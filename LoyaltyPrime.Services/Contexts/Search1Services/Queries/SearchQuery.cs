@@ -1,27 +1,19 @@
 ﻿#nullable enable
-using System;
-using System.Linq.Expressions;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using LoyaltyPrime.DataAccessLayer;
-using LoyaltyPrime.Models;
-using LoyaltyPrime.Services.Common.Specifications.MemberSpec;
-using LoyaltyPrime.Services.Contexts.MemberServices.Dto;
-using LoyaltyPrime.Shared.Utilities.Common;
-using LoyaltyPrime.Shared.Utilities.Common.Data;
+using LoyaltyPrime.Services.Contexts.Search1Services.Dto;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace LoyaltyPrime.Services.Contexts.Search1Services.Queries
 {
-    public class SearchQuery : IRequest<ResultModel<MemberDto>>
+    public class SearchQuery : IRequest<IQueryable<MemberSearchDro>>
     {
-        public string MemberName { get; set; }
-        public string Address { get; set; }
-        public RangeObject<double, double>? BalanceRange { get; set; }
-        public string AccountStatus { get; set; }
     }
 
-    public class SearchQueryHandler : IRequestHandler<SearchQuery, ResultModel<MemberDto>>
+    public class SearchQueryHandler : IRequestHandler<SearchQuery, IQueryable<MemberSearchDro>>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -30,9 +22,15 @@ namespace LoyaltyPrime.Services.Contexts.Search1Services.Queries
             _unitOfWork = unitOfWork;
         }
 
-        public Task<ResultModel<MemberDto>> Handle(SearchQuery request, CancellationToken cancellationToken)
+        public Task<IQueryable<MemberSearchDro>> Handle(SearchQuery request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var result = _unitOfWork.SearchRepository.Query
+                .Include(i => i.Accounts)
+                .Select(s => new MemberSearchDro(s.Id, s.Name, s.Address, s.Accounts
+                    .Select(a => new AccountSearchDto(a.Id, a.Company.Name, a.Balance, a.AccountStatus.ToString())
+                    )
+                )).AsQueryable();
+            return Task.FromResult(result);
         }
     }
 }

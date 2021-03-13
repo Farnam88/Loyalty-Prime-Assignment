@@ -2,6 +2,7 @@
 using FluentValidation;
 using LoyaltyPrime.Services.Common.Behaviour;
 using MediatR;
+using Microsoft.AspNet.OData.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LoyaltyPrime.Services.Modules

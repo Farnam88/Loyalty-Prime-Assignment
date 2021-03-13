@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using LoyaltyPrime.Services.Contexts.BalanceManagementServices.Commands;
+using LoyaltyPrime.Shared.Utilities.Common.Data;
 using LoyaltyPrime.WebApi.Base;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -20,9 +20,9 @@ namespace LoyaltyPrime.ApiTests
         {
             //Arrange
             var importModel = CreateImportObjectSet();
-            
+
             var expectedResult = ResultModel<Unit>.Success(200, "Import completed", Unit.Value);
-            
+
             _mediatorMock.Setup(s =>
                     s.Send(It.IsAny<ImporterCommand>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedResult)

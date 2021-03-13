@@ -14,6 +14,7 @@ namespace LoyaltyPrime.DataAccessLayer
         IRepository<CompanyReward> CompanyRewardRepository { get; }
         IRepository<AccountRedeemHistory> AccountRedeemHistoryRepository { get; }
         IRepository<AccountRewardHistory> AccountRewardHistoryRepository { get; }
+        ISearchRepository SearchRepository { get; }
 
         Task CommitAsync(CancellationToken cancellationToken = default);
     }

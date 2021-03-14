@@ -2045,7 +2045,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/Search?$expand=accounts($filter=Balance gt 10 and Status eq 'ACTIVE')",
+							"raw": "{{baseUrl}}/api/Search?$filter=Accounts/any(account: account/Balance ge 20  and account/Status eq 'ACTIVE')",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -2055,8 +2055,8 @@
 							],
 							"query": [
 								{
-									"key": "$expand",
-									"value": "accounts($filter=Balance gt 10 and Status eq 'ACTIVE')"
+									"key": "$filter",
+									"value": "Accounts/any(account: account/Balance ge 20  and account/Status eq 'ACTIVE')"
 								}
 							]
 						},

@@ -21,9 +21,9 @@ namespace LoyaltyPrime.WebApi.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(string), 201)]
         [ProducesResponseType(typeof(string), 404)]
-        public async Task<IActionResult> CreateReward(CreateCompanyRewardCommand command)
+        public async Task<IActionResult> CreateReward([FromBody]CreateCompanyRewardCommand command)
         {
-            var result = await Mediator.Send(command, default);
+            var result = await Mediator.Send(command);
             return ResultStatusCode(result);
         }
 
@@ -31,9 +31,9 @@ namespace LoyaltyPrime.WebApi.Controllers
         [ProducesResponseType(typeof(IList<CompanyRewardDto>), 200)]
         [ProducesResponseType(204)]
         [ProducesResponseType(typeof(string),404)]
-        public async Task<IActionResult> GetCompanyRewards(int companyId)
+        public async Task<IActionResult> GetCompanyRewards([FromRoute] int companyId)
         {
-            var result = await Mediator.Send(new GetCompanyRewardsQuery(companyId), default);
+            var result = await Mediator.Send(new GetCompanyRewardsQuery(companyId));
             return ResultStatusCode(result);
         }
     }

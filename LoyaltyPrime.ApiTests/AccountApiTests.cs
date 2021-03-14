@@ -98,24 +98,7 @@ namespace LoyaltyPrime.ApiTests
                 s.Send(It.IsAny<CreateAccountCommand>(), It.IsAny<CancellationToken>()));
         }
 
-        [Fact]
-        public void ApiExceptionFilterAttribute_ShouldReturnObjectResult_WhenExceptionOccurred()
-        {
-            //Arrange
-            var httpContext = new DefaultHttpContext();
-            var context = new ExceptionContext(
-                new ActionContext(httpContext, new RouteData(), new ActionDescriptor(), new ModelStateDictionary()),
-                new List<IFilterMetadata>()) {Exception = new Exception("Tes Exception")};
 
-            var sut = new ApiExceptionFilterAttribute();
-
-            //Act
-            sut.OnException(context);
-
-            //Assert
-            context.Result.Should().NotBeNull()
-                .And.BeOfType<ObjectResult>();
-        }
 
         public IList<AccountDto> AccountDtoSet()
         {

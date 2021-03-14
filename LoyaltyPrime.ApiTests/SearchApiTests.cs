@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
-using LoyaltyPrime.Services.Contexts.Search1Services.Dto;
-using LoyaltyPrime.Services.Contexts.Search1Services.Queries;
+using LoyaltyPrime.Services.Contexts.SearchServices.Dto;
+using LoyaltyPrime.Services.Contexts.SearchServices.Queries;
 using LoyaltyPrime.WebApi.Controllers;
 using MediatR;
 using Moq;

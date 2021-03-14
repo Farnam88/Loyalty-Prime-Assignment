@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.Results;
 using LoyaltyPrime.DataAccessLayer;
 using LoyaltyPrime.Shared.Utilities.Common.Data;
 using LoyaltyPrime.Models;
@@ -52,12 +54,11 @@ namespace LoyaltyPrime.Services.Contexts.BalanceManagementServices.Commands
             if (account == null)
                 return ResultModel<double>.NotFound(nameof(Account));
             if (account.Balance < companyRedeem.RedeemPoints)
-                return ResultModel<double>.Fail(400, "Insufficient balance in your account",
-                    ErrorTypes.LogicalError, new Dictionary<string, string>
-                    {
-                        {"Current Balance", $"{account.Balance}"},
-                        {"Requested Redeem", $"{companyRedeem.RedeemPoints}"}
-                    });
+                throw new ValidationException("Insufficient balance", new List<ValidationFailure>
+                {
+                    new ValidationFailure("Current Balance", $"{account.Balance}"),
+                    new ValidationFailure("Requested Redeem Points", $"{companyRedeem.RedeemPoints}"),
+                });
             if (account.AccountStatus == AccountStatus.Inactive)
                 return ResultModel<double>.Fail(404, "could not redeem from an inactive account");
 

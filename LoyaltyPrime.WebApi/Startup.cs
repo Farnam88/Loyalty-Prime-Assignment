@@ -1,5 +1,6 @@
 using System.Linq;
-using LoyaltyPrime.Services.Contexts.Search1Services.Dto;
+using LoyaltyPrime.Models;
+using LoyaltyPrime.Services.Contexts.SearchServices.Dto;
 using LoyaltyPrime.WebApi.Base;
 using LoyaltyPrime.WebApi.Modules;
 using Microsoft.AspNet.OData.Builder;
@@ -28,7 +29,8 @@ namespace LoyaltyPrime.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers(options => { options.Filters.Add<ApiExceptionFilterAttribute>(); });
+            services.AddControllers(options => { options.Filters.Add<ApiExceptionFilterAttribute>(); })
+                .AddNewtonsoftJson();
             services.RegisterApplicationServices();
             services.AddSwaggerGen(c =>
             {
@@ -57,15 +59,15 @@ namespace LoyaltyPrime.WebApi
             {
                 op.EnableDependencyInjection();
                 op.MapControllers();
-                op.Select().Expand().Filter().OrderBy();
-                op.MapODataRoute(routeName: "api", "api", model: GetEdmModel());
+                op.MapODataRoute("api", "api", model: GetEdmModel()).Select().Expand().Filter();
             });
         }
 
         private IEdmModel GetEdmModel()
         {
             var builder = new ODataConventionModelBuilder();
-            builder.EntitySet<MemberSearchDro>("Member").EntityType.Name = "Members";
+            builder.EntityType<MemberSearchDro>();
+            builder.EntitySet<Member>("Member");
             return builder.GetEdmModel();
         }
 

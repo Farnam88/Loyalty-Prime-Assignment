@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LoyaltyPrime.Services.Contexts.Search1Services.Dto
+namespace LoyaltyPrime.Services.Contexts.SearchServices.Dto
 {
     public class MemberSearchDro
     {
@@ -8,7 +8,7 @@ namespace LoyaltyPrime.Services.Contexts.Search1Services.Dto
         {
             
         }
-        public MemberSearchDro(int id, string name, string address, IEnumerable<AccountSearchDto> accounts)
+        public MemberSearchDro(int id, string name, string address, List<AccountSearchDto> accounts)
         {
             Id = id;
             Name = name;

@@ -2,12 +2,14 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using LoyaltyPrime.DataAccessLayer;
-using LoyaltyPrime.Services.Contexts.Search1Services.Dto;
+using LoyaltyPrime.Services.Contexts.SearchServices.Dto;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace LoyaltyPrime.Services.Contexts.Search1Services.Queries
+namespace LoyaltyPrime.Services.Contexts.SearchServices.Queries
 {
     public class SearchQuery : IRequest<IQueryable<MemberSearchDro>>
     {
@@ -16,20 +18,19 @@ namespace LoyaltyPrime.Services.Contexts.Search1Services.Queries
     public class SearchQueryHandler : IRequestHandler<SearchQuery, IQueryable<MemberSearchDro>>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public SearchQueryHandler(IUnitOfWork unitOfWork)
+        public SearchQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public Task<IQueryable<MemberSearchDro>> Handle(SearchQuery request, CancellationToken cancellationToken)
         {
             var result = _unitOfWork.SearchRepository.Query
                 .Include(i => i.Accounts)
-                .Select(s => new MemberSearchDro(s.Id, s.Name, s.Address, s.Accounts
-                    .Select(a => new AccountSearchDto(a.Id, a.Company.Name, a.Balance, a.AccountStatus.ToString())
-                    )
-                )).AsQueryable();
+                .ProjectTo<MemberSearchDro>(_mapper.ConfigurationProvider);
             return Task.FromResult(result);
         }
     }

@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using FluentValidation;
 using LoyaltyPrime.DataAccessLayer;
 using LoyaltyPrime.DataAccessLayer.Repositories;
-using LoyaltyPrime.DataAccessLayer.Specifications;
 using LoyaltyPrime.Models;
 using LoyaltyPrime.Models.Bases.Enums;
 using LoyaltyPrime.Services.Common.Specifications.AccountSpec;

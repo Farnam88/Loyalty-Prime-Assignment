@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using LoyaltyPrime.DataAccessLayer;
 using LoyaltyPrime.Services.Contexts.SearchServices.Dto;
 using MediatR;
@@ -11,26 +9,37 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LoyaltyPrime.Services.Contexts.SearchServices.Queries
 {
-    public class SearchQuery : IRequest<IQueryable<MemberSearchDro>>
+    public class SearchQuery : IRequest<IQueryable<MemberSearchDto>>
     {
     }
 
-    public class SearchQueryHandler : IRequestHandler<SearchQuery, IQueryable<MemberSearchDro>>
+    public class SearchQueryHandler : IRequestHandler<SearchQuery, IQueryable<MemberSearchDto>>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
 
-        public SearchQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public SearchQueryHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
         }
 
-        public Task<IQueryable<MemberSearchDro>> Handle(SearchQuery request, CancellationToken cancellationToken)
+        public Task<IQueryable<MemberSearchDto>> Handle(SearchQuery request, CancellationToken cancellationToken)
         {
             var result = _unitOfWork.SearchRepository.Query
                 .Include(i => i.Accounts)
-                .ProjectTo<MemberSearchDro>(_mapper.ConfigurationProvider);
+                .ThenInclude(i => i.Company)
+                .Select(s => new MemberSearchDto
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Address = s.Address,
+                    Accounts = s.Accounts.Select(a => new AccountSearchDto
+                    {
+                        AccountId = a.Id,
+                        CompanyName = a.Company.Name,
+                        Balance = a.Balance,
+                        Status = a.AccountStatus.ToString().ToUpper()
+                    }).ToList()
+                }).AsQueryable();
             return Task.FromResult(result);
         }
     }

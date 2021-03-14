@@ -3,7 +3,6 @@ using LoyaltyPrime.DataAccessLayer.Repositories;
 using LoyaltyPrime.DataLayer;
 using LoyaltyPrime.Models;
 using LoyaltyPrime.Shared.Utilities.Extensions;
-using Microsoft.EntityFrameworkCore;
 
 namespace LoyaltyPrime.DataAccessLayer.Infrastructure.Repositories
 {

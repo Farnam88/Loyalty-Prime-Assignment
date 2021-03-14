@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using LoyaltyPrime.Services.Contexts.AccountServices.Commands;
 using LoyaltyPrime.Services.Contexts.AccountServices.Dto;

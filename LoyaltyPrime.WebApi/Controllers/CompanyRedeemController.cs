@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using LoyaltyPrime.Services.Contexts.CompanyRedeemServices.Commands;
 using LoyaltyPrime.Services.Contexts.CompanyRedeemServices.Dto;
 using LoyaltyPrime.Services.Contexts.CompanyRedeemServices.Queries;
-using LoyaltyPrime.Shared.Utilities.Common.Data;
 using LoyaltyPrime.WebApi.Base;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

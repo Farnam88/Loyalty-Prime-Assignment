@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using FluentValidation;
+﻿using FluentValidation;
 using LoyaltyPrime.Services.Contexts.ImporterServices.Models;
 
 namespace LoyaltyPrime.Services.Contexts.ImporterServices.Commands

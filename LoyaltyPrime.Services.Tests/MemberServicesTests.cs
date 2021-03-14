@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using LoyaltyPrime.DataAccessLayer;
 using LoyaltyPrime.DataAccessLayer.Repositories;
-using LoyaltyPrime.DataAccessLayer.Specifications;
 using LoyaltyPrime.Models;
 using LoyaltyPrime.Services.Common.Specifications.MemberSpec;
 using LoyaltyPrime.Services.Contexts.MemberServices.Commands;

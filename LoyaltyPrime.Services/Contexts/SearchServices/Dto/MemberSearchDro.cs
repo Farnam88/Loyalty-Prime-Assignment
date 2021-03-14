@@ -2,13 +2,13 @@
 
 namespace LoyaltyPrime.Services.Contexts.SearchServices.Dto
 {
-    public class MemberSearchDro
+    public class MemberSearchDto
     {
-        public MemberSearchDro()
+        public MemberSearchDto()
         {
             
         }
-        public MemberSearchDro(int id, string name, string address, List<AccountSearchDto> accounts)
+        public MemberSearchDto(int id, string name, string address, List<AccountSearchDto> accounts)
         {
             Id = id;
             Name = name;
@@ -19,6 +19,6 @@ namespace LoyaltyPrime.Services.Contexts.SearchServices.Dto
         public int Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
-        public IEnumerable<AccountSearchDto> Accounts { get; set; }
+        public List<AccountSearchDto> Accounts { get; set; }
     }
 }

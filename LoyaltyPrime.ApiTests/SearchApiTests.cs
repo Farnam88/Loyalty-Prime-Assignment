@@ -20,7 +20,7 @@ namespace LoyaltyPrime.ApiTests
 
             _mediatorMock.Setup(s =>
                     s.Send(It.IsAny<SearchQuery>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(It.IsAny<IQueryable<MemberSearchDro>>())
+                .ReturnsAsync(It.IsAny<IQueryable<MemberSearchDto>>())
                 .Verifiable();
 
             SearchController sut = new SearchController(_mediatorMock.Object);

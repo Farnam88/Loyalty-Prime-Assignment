@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using LoyaltyPrime.Services.Contexts.ImporterServices.Commands;
 
 namespace LoyaltyPrime.Services.Contexts.MemberServices.Commands
 {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using FluentAssertions;
 using FluentValidation;
 using FluentValidation.Results;
-using LoyaltyPrime.Shared.Utilities.Common.Data;
 using LoyaltyPrime.WebApi.Base;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +10,6 @@ using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
-using Moq;
 using Xunit;
 
 namespace LoyaltyPrime.ApiTests

@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using FluentValidation;
-using LoyaltyPrime.Services.Common.Base;
 using LoyaltyPrime.Services.Common.Behaviour;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,11 +14,6 @@ namespace LoyaltyPrime.Services.Modules
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-            services.AddAutoMapper(opt =>
-            {
-                opt.AddProfile(new MappingProfile());
-                opt.AllowNullCollections = true;
-            });
         }
     }
 }

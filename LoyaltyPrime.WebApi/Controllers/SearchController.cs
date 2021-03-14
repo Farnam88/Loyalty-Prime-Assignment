@@ -19,8 +19,8 @@ namespace LoyaltyPrime.WebApi.Controllers
 
         [HttpGet]
         [EnableQuery]
-        [ProducesResponseType(typeof(List<MemberSearchDro>), 200)]
-        public IQueryable<MemberSearchDro> Search()
+        [ProducesResponseType(typeof(List<MemberSearchDto>), 200)]
+        public IQueryable<MemberSearchDto> Search()
         {
             var result = Mediator.Send(new SearchQuery(), default)
                 .ConfigureAwait(false)

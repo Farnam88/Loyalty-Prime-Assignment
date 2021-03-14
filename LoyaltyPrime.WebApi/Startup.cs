@@ -66,7 +66,7 @@ namespace LoyaltyPrime.WebApi
         private IEdmModel GetEdmModel()
         {
             var builder = new ODataConventionModelBuilder();
-            builder.EntityType<MemberSearchDro>();
+            builder.EntityType<MemberSearchDto>();
             builder.EntitySet<Member>("Member");
             return builder.GetEdmModel();
         }

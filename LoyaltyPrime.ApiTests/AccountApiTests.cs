@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using FluentAssertions;
 using LoyaltyPrime.Models.Bases.Enums;
 using LoyaltyPrime.Services.Contexts.AccountServices.Commands;
 using LoyaltyPrime.Services.Contexts.AccountServices.Dto;
 using LoyaltyPrime.Services.Contexts.AccountServices.Queries;
 using LoyaltyPrime.Shared.Utilities.Common.Data;
-using LoyaltyPrime.WebApi.Base;
 using LoyaltyPrime.WebApi.Controllers;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Routing;
 using Moq;
 using Xunit;
 

@@ -1,4 +1,5 @@
-﻿namespace LoyaltyPrime.Services.Contexts.Search1Services.Dto
+﻿
+namespace LoyaltyPrime.Services.Contexts.SearchServices.Dto
 {
     public class AccountSearchDto
     {

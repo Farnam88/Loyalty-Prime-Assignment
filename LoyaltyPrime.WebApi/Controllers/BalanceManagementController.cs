@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using LoyaltyPrime.Services.Contexts.BalanceManagementServices.Commands;
-using LoyaltyPrime.Shared.Utilities.Common.Data;
 using LoyaltyPrime.WebApi.Base;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +18,7 @@ namespace LoyaltyPrime.WebApi.Controllers
         [HttpPost("collect-points")]
         [ProducesResponseType(typeof(string), 404)]
         [ProducesResponseType(typeof(string), 200)]
-        public async Task<IActionResult> CollectPoints(CollectPointCommand command)
+        public async Task<IActionResult> CollectPoints([FromBody]CollectPointCommand command)
         {
             var result = await Mediator.Send(command);
             return StatusCode(result.StatusCode, result.Message);
@@ -28,8 +27,7 @@ namespace LoyaltyPrime.WebApi.Controllers
         [HttpPost("redeem-points")]
         [ProducesResponseType(typeof(string), 404)]
         [ProducesResponseType(typeof(string), 200)]
-        [ProducesResponseType(typeof(string), 400)]
-        public async Task<IActionResult> RedeemPoints(RedeemPointCommand command)
+        public async Task<IActionResult> RedeemPoints([FromBody]RedeemPointCommand command)
         {
             var result = await Mediator.Send(command);
             return StatusCode(result.StatusCode, result.Message);

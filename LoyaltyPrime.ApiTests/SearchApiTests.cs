@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
-using LoyaltyPrime.Services.Contexts.Search1Services.Dto;
-using LoyaltyPrime.Services.Contexts.Search1Services.Queries;
+using LoyaltyPrime.Services.Contexts.SearchServices.Dto;
+using LoyaltyPrime.Services.Contexts.SearchServices.Queries;
 using LoyaltyPrime.WebApi.Controllers;
 using MediatR;
 using Moq;
@@ -20,7 +20,7 @@ namespace LoyaltyPrime.ApiTests
 
             _mediatorMock.Setup(s =>
                     s.Send(It.IsAny<SearchQuery>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(It.IsAny<IQueryable<MemberSearchDro>>())
+                .ReturnsAsync(It.IsAny<IQueryable<MemberSearchDto>>())
                 .Verifiable();
 
             SearchController sut = new SearchController(_mediatorMock.Object);

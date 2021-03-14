@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
 using LoyaltyPrime.DataAccessLayer;
 using LoyaltyPrime.DataAccessLayer.Repositories;
-using LoyaltyPrime.DataAccessLayer.Specifications;
 using LoyaltyPrime.Models;
 using LoyaltyPrime.Models.Bases.Enums;
 using LoyaltyPrime.Services.Common.Specifications.AccountSpec;
@@ -70,33 +70,46 @@ namespace LoyaltyPrime.Services.Tests
             CreateAccountCommand command = new CreateAccountCommand(member.Id, company.Id);
 
             CreateAccountCommandHandler sut = new CreateAccountCommandHandler(_unitOfWorkMock.Object);
-
-            //Act
-            var result = await sut.Handle(command, It.IsAny<CancellationToken>());
-
-            //Assert
-
-            _unitOfWorkMock.Verify(v => v.MemberRepository);
-
-            _unitOfWorkMock.Verify(v => v.AccountRepository);
-
-            _unitOfWorkMock.Verify(v => v.CompanyRepository);
-
-            companyRepositoryMock.Verify(v =>
-                v.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
-
-            memberRepositoryMock.Verify(v =>
-                v.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
             if (existingAccount)
             {
+                //Act
+                await Assert.ThrowsAsync<ValidationException>(()=>sut.Handle(command, It.IsAny<CancellationToken>()));
+
+                //Assert
+
+                _unitOfWorkMock.Verify(v => v.MemberRepository);
+
+                _unitOfWorkMock.Verify(v => v.AccountRepository);
+
+                _unitOfWorkMock.Verify(v => v.CompanyRepository);
+
+                companyRepositoryMock.Verify(v =>
+                    v.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
+
+                memberRepositoryMock.Verify(v =>
+                    v.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
+
                 _accountRepositoryMock.Verify(s =>
                     s.FirstOrDefaultAsync(It.IsAny<AccountEntitySpecification>(), It.IsAny<CancellationToken>()));
-                Assert.False(result.IsSucceeded);
-                Assert.Equal(404, result.StatusCode);
             }
 
             if (!existingAccount)
             {
+                //Act
+                var result = await sut.Handle(command, It.IsAny<CancellationToken>());
+
+                //Assert
+                _unitOfWorkMock.Verify(v => v.MemberRepository);
+
+                _unitOfWorkMock.Verify(v => v.AccountRepository);
+
+                _unitOfWorkMock.Verify(v => v.CompanyRepository);
+
+                companyRepositoryMock.Verify(v =>
+                    v.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
+
+                memberRepositoryMock.Verify(v =>
+                    v.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
                 _accountRepositoryMock.Verify(s =>
                     s.FirstOrDefaultAsync(It.IsAny<AccountEntitySpecification>(), It.IsAny<CancellationToken>()));
 

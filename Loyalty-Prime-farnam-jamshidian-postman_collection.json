@@ -1,0 +1,2182 @@
+{
+	"info": {
+		"_postman_id": "aabbb733-da1b-41d7-92eb-f292713a76bb",
+		"name": "Loyalty Prime Farnam Jamshidian",
+		"description": "Loyalty Prime assignment to Farnam Jamshidian",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "Create an account for a Member",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"companyId\": 1,\n    \"memberId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/account",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"account"
+							]
+						},
+						"description": "Create an account for a Member.\nMember can not have more that one account for a specified company.\nreturns 404 if the company or account does not exist.\nreturns 400 if the member has already an account of the company.\nreturns 201 on success with a message."
+					},
+					"response": [
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"companyId\": 2722100,\n    \"memberId\": -70737919\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/account",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"account"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 400,\n \"message\": \"Requested Data is not Valid\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Validation Error\"\n }\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"companyId\": 2722100,\n    \"memberId\": -70737919\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/account",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"account"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "\"String message containing Not found message\""
+						},
+						{
+							"name": "Server Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"companyId\": 2722100,\n    \"memberId\": -70737919\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/account",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"account"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 500,\n \"message\": \"An unhandled error occurred\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Internal system error\"\n }\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"companyId\": 2722100,\n    \"memberId\": -70737919\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/account",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"account"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get Member's accounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/account/:memberId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"account",
+								":memberId"
+							],
+							"variable": [
+								{
+									"key": "memberId",
+									"value": "1",
+									"type": "string",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Get accounts of a specified company.\nreturns 404 if the member does not exist.\nreturns 200 with a list of accounts.\nreturns 204 if the member does not have any accounts."
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/account/:memberId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"account",
+										":memberId"
+									],
+									"variable": [
+										{
+											"key": "memberId"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/account/:memberId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"account",
+										":memberId"
+									],
+									"variable": [
+										{
+											"key": "memberId"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 400,\n \"message\": \"Requested Data is not Valid\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Validation Error\"\n }\n}"
+						},
+						{
+							"name": "Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/account/:memberId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"account",
+										":memberId"
+									],
+									"variable": [
+										{
+											"key": "memberId"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 500,\n \"message\": \"An unhandled error occurred\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Internal system error\"\n }\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/account/:memberId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"account",
+										":memberId"
+									],
+									"variable": [
+										{
+											"key": "memberId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"accountId\": 1,\n        \"companyId\": 1,\n        \"memberId\": 1,\n        \"companyName\": \"Burger King\",\n        \"memberName\": \"Farnam jamshidian\",\n        \"balance\": 300,\n        \"status\": \"ACTIVE\"\n    },\n    {\n        \"accountId\": 2,\n        \"companyId\": 2,\n        \"memberId\": 1,\n        \"companyName\": \"Lufthansa\",\n        \"memberName\": \"Farnam jamshidian\",\n        \"balance\": 150,\n        \"status\": \"INACTIVE\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get Member's Account",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/account/:memberId/:accountId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"account",
+								":memberId",
+								":accountId"
+							],
+							"variable": [
+								{
+									"key": "memberId",
+									"value": "1",
+									"type": "string",
+									"description": "(Required) "
+								},
+								{
+									"key": "accountId",
+									"value": "1",
+									"type": "string",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Get a Specified account of a specified member\nreturns 404 if the account does not exist.\nreturns 200 on successfully finding the account."
+					},
+					"response": [
+						{
+							"name": "Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/account/:memberId/:accountId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"account",
+										":memberId",
+										":accountId"
+									],
+									"variable": [
+										{
+											"key": "memberId"
+										},
+										{
+											"key": "accountId"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 500,\n \"message\": \"An unhandled error occurred\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Internal system error\"\n }\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/account/:memberId/:accountId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"account",
+										":memberId",
+										":accountId"
+									],
+									"variable": [
+										{
+											"key": "memberId"
+										},
+										{
+											"key": "accountId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"accountId\": 1,\n \"companyId\": 1,\n \"memberId\": 1,\n \"companyName\": \"Burger King\",\n \"memberName\": \"Farnam jamshidian\",\n \"balance\": 300,\n \"status\": \"ACTIVE\"\n}"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/account/:memberId/:accountId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"account",
+										":memberId",
+										":accountId"
+									],
+									"variable": [
+										{
+											"key": "memberId"
+										},
+										{
+											"key": "accountId"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 400,\n \"message\": \"Requested Data is not Valid\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Validation Error\"\n }\n}"
+						}
+					]
+				}
+			],
+			"description": "Account controller"
+		},
+		{
+			"name": "Balance Management",
+			"item": [
+				{
+					"name": "Collect Point to an Account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountId\": 1,\n    \"memberId\": 1,\n    \"companyRewardId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/balance-management/collect-points",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"balance-management",
+								"collect-points"
+							]
+						},
+						"description": "Member can collect points from the company's reward options reward points into the specified account balance.\nreturns 404 if the company's reward option or account does not exist.\nreturns 200 on successfully adding the reward points into the account balance and persists the reward collection history of the account."
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"accountId\": 52219843,\n    \"memberId\": -66319089,\n    \"companyRewardId\": -5540503\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/balance-management/collect-points",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"balance-management",
+										"collect-points"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "\"String message containing success message\""
+						},
+						{
+							"name": "Server Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"accountId\": 52219843,\n    \"memberId\": -66319089,\n    \"companyRewardId\": -5540503\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/balance-management/collect-points",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"balance-management",
+										"collect-points"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 500,\n \"message\": \"An unhandled error occurred\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Internal system error\"\n }\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"accountId\": 52219843,\n    \"memberId\": -66319089,\n    \"companyRewardId\": -5540503\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/balance-management/collect-points",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"balance-management",
+										"collect-points"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "\"String message containing Not found message\""
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"accountId\": 52219843,\n    \"memberId\": -66319089,\n    \"companyRewardId\": -5540503\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/balance-management/collect-points",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"balance-management",
+										"collect-points"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 400,\n \"message\": \"Requested Data is not Valid\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Validation Error\"\n }\n}"
+						}
+					]
+				},
+				{
+					"name": "Redeem Point From an Account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountId\": 1,\n    \"memberId\": 1,\n    \"companyRedeemId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/balance-management/redeem-points",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"balance-management",
+								"redeem-points"
+							]
+						},
+						"description": "Member can redeem points by specifying one company's redeem options(this option has N amount of points to redeem) from an Active account that has a balance greater than the company's redeem option.\nreturns 404 if the company's redeem option or account does not exist.\nreturns 400 if the account balance is less than the company's redeem option.\nreturn 404 if the specified account is not active.\nreturns 200 on successfully subtract Redeem Points From the account balance and persists the Redeem history of the account."
+					},
+					"response": [
+						{
+							"name": "Server Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"accountId\": 37055036,\n    \"memberId\": 70068848,\n    \"companyRedeemId\": 33620201\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/balance-management/redeem-points",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"balance-management",
+										"redeem-points"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 500,\n \"message\": \"An unhandled error occurred\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Internal system error\"\n }\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"accountId\": 37055036,\n    \"memberId\": 70068848,\n    \"companyRedeemId\": 33620201\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/balance-management/redeem-points",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"balance-management",
+										"redeem-points"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "\"String message containing Not found message\""
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"accountId\": 37055036,\n    \"memberId\": 70068848,\n    \"companyRedeemId\": 33620201\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/balance-management/redeem-points",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"balance-management",
+										"redeem-points"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 400,\n \"message\": \"Requested Data is not Valid\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Validation Error\"\n }\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"accountId\": 37055036,\n    \"memberId\": 70068848,\n    \"companyRedeemId\": 33620201\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/balance-management/redeem-points",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"balance-management",
+										"redeem-points"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "\"String message containing success message\""
+						}
+					]
+				}
+			],
+			"description": "Balance management for account Balance controller"
+		},
+		{
+			"name": "Company",
+			"item": [
+				{
+					"name": "Get List of Companies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/company",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"company"
+							]
+						},
+						"description": "Get a list of existing companies.\nreturn 200 if any company exist.\nreturn 204 if no company exist."
+					},
+					"response": [
+						{
+							"name": "Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/company",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 500,\n \"message\": \"An unhandled error occurred\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Internal system error\"\n }\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/company",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "[\n {\n  \"id\": 1,\n  \"name\": \"Lufthansa\"\n },\n {\n  \"id\": 2,\n  \"name\": \"Burger King\"\n }\n]"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/company",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/company",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 400,\n \"message\": \"Requested Data is not Valid\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Validation Error\"\n }\n}"
+						}
+					]
+				}
+			],
+			"description": "Company Controller"
+		},
+		{
+			"name": "Company Redeem Options",
+			"item": [
+				{
+					"name": "Create Company Redeem Option",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"companyId\": 1,\n    \"redeemTitle\": \"Free Coffee\",\n    \"redeemPoints\": 50\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/company-redeem",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"company-redeem"
+							]
+						},
+						"description": "User can create a company redeem option and then a member can choose between these options to redeem points from their account.\nreturns 404 if the company does not exist.\nreturn 201 on successfully creating a redeem option."
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"companyId\": -62784106,\n    \"redeemTitle\": \"ullamco sint anim cillum exercitation\",\n    \"redeemPoints\": -98790799.43383692\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/company-redeem",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company-redeem"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "\"String message containing success message\""
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"companyId\": -62784106,\n    \"redeemTitle\": \"ullamco sint anim cillum exercitation\",\n    \"redeemPoints\": -98790799.43383692\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/company-redeem",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company-redeem"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "\"String message containing Not found message\""
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"companyId\": -62784106,\n    \"redeemTitle\": \"ullamco sint anim cillum exercitation\",\n    \"redeemPoints\": -98790799.43383692\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/company-redeem",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company-redeem"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 400,\n \"message\": \"Requested Data is not Valid\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Validation Error\"\n }\n}"
+						},
+						{
+							"name": "Server Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"companyId\": -62784106,\n    \"redeemTitle\": \"ullamco sint anim cillum exercitation\",\n    \"redeemPoints\": -98790799.43383692\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/company-redeem",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company-redeem"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 500,\n \"message\": \"An unhandled error occurred\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Internal system error\"\n }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Company Redeem Options",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/company-redeem/:companyId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"company-redeem",
+								":companyId"
+							],
+							"variable": [
+								{
+									"key": "companyId",
+									"value": "93668381",
+									"type": "string",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Get a list of the company's redeem options.\nreturns 404 if the company does not exist.\nreturns 200 if redeem options exist.\nreturn 204 if there is no redeem options for this company."
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/company-redeem/:companyId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company-redeem",
+										":companyId"
+									],
+									"variable": [
+										{
+											"key": "companyId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "[\n {\n  \"companyId\": 1,\n  \"companyRedeemId\": 1,\n  \"companyName\": \"Lufthansa\",\n  \"redeemTitle\": \"Free Cofee\",\n  \"redeemPoints\": 100\n },\n {\n  \"companyId\": 2,\n  \"companyRedeemId\": 2,\n  \"companyName\": \"Fitness First\",\n  \"redeemTitle\": \"Free Dancing Session\",\n  \"redeemPoints\": 25\n }\n]"
+						},
+						{
+							"name": "Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/company-redeem/:companyId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company-redeem",
+										":companyId"
+									],
+									"variable": [
+										{
+											"key": "companyId"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 500,\n \"message\": \"An unhandled error occurred\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Internal system error\"\n }\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/company-redeem/:companyId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company-redeem",
+										":companyId"
+									],
+									"variable": [
+										{
+											"key": "companyId"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/company-redeem/:companyId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company-redeem",
+										":companyId"
+									],
+									"variable": [
+										{
+											"key": "companyId"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 400,\n \"message\": \"Requested Data is not Valid\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Validation Error\"\n }\n}"
+						}
+					]
+				}
+			],
+			"description": "Company redeem Options Controller"
+		},
+		{
+			"name": "Company Reward Options",
+			"item": [
+				{
+					"name": "Create Company Reward Option",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"companyId\": 1,\n    \"rewardTitle\": \"International Flight\",\n    \"rewardPoints\": 150\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/company-reward",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"company-reward"
+							]
+						},
+						"description": "User can create a company reward option and then a member can choose between these options to collect points to their account.\nreturns 404 if the company does not exist.\nreturn 201 on successfully creating a reward option for the company."
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"companyId\": -71685193,\n    \"rewardTitle\": \"ullamco sunt elit deserunt labore\",\n    \"rewardPoints\": 40928841.959204435\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/company-reward",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company-reward"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "\"String message containing success message\""
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"companyId\": -71685193,\n    \"rewardTitle\": \"ullamco sunt elit deserunt labore\",\n    \"rewardPoints\": 40928841.959204435\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/company-reward",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company-reward"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 400,\n \"message\": \"Requested Data is not Valid\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Validation Error\"\n }\n}"
+						},
+						{
+							"name": "Server Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"companyId\": -71685193,\n    \"rewardTitle\": \"ullamco sunt elit deserunt labore\",\n    \"rewardPoints\": 40928841.959204435\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/company-reward",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company-reward"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 500,\n \"message\": \"An unhandled error occurred\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Internal system error\"\n }\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"companyId\": -71685193,\n    \"rewardTitle\": \"ullamco sunt elit deserunt labore\",\n    \"rewardPoints\": 40928841.959204435\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/company-reward",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company-reward"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "\"String message containing Not found message\""
+						}
+					]
+				},
+				{
+					"name": "Get Company Reward Options",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/company-reward/:companyId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"company-reward",
+								":companyId"
+							],
+							"variable": [
+								{
+									"key": "companyId",
+									"value": "93668381",
+									"type": "string",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Get a list of the company's reward options.\nreturns 404 if the company does not exist.\nreturns 200 if reward options exist.\nreturn 204 if there is no reward options for this company."
+					},
+					"response": [
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/company-reward/:companyId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company-reward",
+										":companyId"
+									],
+									"variable": [
+										{
+											"key": "companyId"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 400,\n \"message\": \"Requested Data is not Valid\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Validation Error\"\n }\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/company-reward/:companyId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company-reward",
+										":companyId"
+									],
+									"variable": [
+										{
+											"key": "companyId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "\"String message containing Not found message\""
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/company-reward/:companyId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company-reward",
+										":companyId"
+									],
+									"variable": [
+										{
+											"key": "companyId"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/company-reward/:companyId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company-reward",
+										":companyId"
+									],
+									"variable": [
+										{
+											"key": "companyId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "[\n {\n  \"companyRewardId\": 1,\n  \"companyId\": 1,\n  \"companyName\": \"Lufthansa\",\n  \"rewardTitle\": \"International Flight\",\n  \"rewardPoints\": 150\n },\n {\n  \"companyRewardId\": 2,\n  \"companyId\": 2,\n  \"companyName\": \"Burger King\",\n  \"rewardTitle\": \"Crispy Chicken\",\n  \"rewardPoints\": 100\n }\n]"
+						},
+						{
+							"name": "Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/company-reward/:companyId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"company-reward",
+										":companyId"
+									],
+									"variable": [
+										{
+											"key": "companyId"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 500,\n \"message\": \"An unhandled error occurred\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Internal system error\"\n }\n}"
+						}
+					]
+				}
+			],
+			"description": "Company Reward Options Controller"
+		},
+		{
+			"name": "Importer",
+			"item": [
+				{
+					"name": "Import From Json Format",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"Name\": \"Anakin Skywalker\",\n        \"Address\": \"Landsberger Straße 110\",\n        \"Accounts\": [\n            {\n                \"Name\": \"Burger King\",\n                \"Balance\": 10,\n                \"Status\": \"ACTIVE\"\n            },\n            {\n                \"Balance\": 150,\n                \"Status\": \"INACTIVE\",\n                \"Name\": \"Fitness First\"\n            }\n        ]\n    },\n    {\n        \"Name\": \"Darth Vader\",\n        \"Address\": \"Landsberger Straße 112\",\n        \"Accounts\": [\n            {\n                \"Balance\": 10,\n                \"Status\": \"ACTIVE\",\n                \"Name\": \"Lufthansa\"\n            }\n        ]\n    },\n    {\n        \"Name\": \"Obi-Wan Kenobi\",\n        \"Address\": \"Landsberger Straße 114\",\n        \"Accounts\": [\n            {\n                \"Balance\": 0,\n                \"Status\": \"ACTIVE\",\n                \"Name\": \"Lufthansa\"\n            },\n            {\n                \"Balance\": 17,\n                \"Status\": \"ACTIVE\",\n                \"Name\": \"Fitness First\"\n            },\n            {\n                \"Name\": \"Burger King\",\n                \"Balance\": 20,\n                \"Status\": \"ACTIVE\"\n            }\n        ]\n    },\n    {\n        \"Name\": \"Yoda\",\n        \"Address\": \"Landsberger Straße 114\",\n        \"Accounts\": [\n            {\n                \"Balance\": 10,\n                \"Status\": \"ACTIVE\",\n                \"Name\": \"Lufthansa\"\n            }\n        ]\n    }\n]"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/importer",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"importer"
+							]
+						},
+						"description": "User can bulk insert Members and their accounts by using a JSON format object.\nreturns 200 on creating Members, Accounts and Companies related to accounts"
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"name\": \"enim dolor veniam mollit\",\n        \"address\": \"ad dolor non\",\n        \"accounts\": [\n            {\n                \"name\": \"ut ut in aliquip\",\n                \"balance\": 18488862.680709064,\n                \"status\": \"laborum exercitation magna\"\n            },\n            {\n                \"name\": \"ut exercitation est\",\n                \"balance\": 11200112.974749833,\n                \"status\": \"ut id enim qui exercitation\"\n            }\n        ]\n    },\n    {\n        \"name\": \"do ir\",\n        \"address\": \"anim qui do\",\n        \"accounts\": [\n            {\n                \"name\": \"anim sunt in\",\n                \"balance\": -84802781.11928326,\n                \"status\": \"sunt non\"\n            },\n            {\n                \"name\": \"nulla minim mollit\",\n                \"balance\": -12209652.046521053,\n                \"status\": \"sed\"\n            }\n        ]\n    }\n]"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/importer",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"importer"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"name\": \"enim dolor veniam mollit\",\n        \"address\": \"ad dolor non\",\n        \"accounts\": [\n            {\n                \"name\": \"ut ut in aliquip\",\n                \"balance\": 18488862.680709064,\n                \"status\": \"laborum exercitation magna\"\n            },\n            {\n                \"name\": \"ut exercitation est\",\n                \"balance\": 11200112.974749833,\n                \"status\": \"ut id enim qui exercitation\"\n            }\n        ]\n    },\n    {\n        \"name\": \"do ir\",\n        \"address\": \"anim qui do\",\n        \"accounts\": [\n            {\n                \"name\": \"anim sunt in\",\n                \"balance\": -84802781.11928326,\n                \"status\": \"sunt non\"\n            },\n            {\n                \"name\": \"nulla minim mollit\",\n                \"balance\": -12209652.046521053,\n                \"status\": \"sed\"\n            }\n        ]\n    }\n]"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/importer",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"importer"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 400,\n \"message\": \"Requested Data is not Valid\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Validation Error\"\n }\n}"
+						},
+						{
+							"name": "Server Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"name\": \"enim dolor veniam mollit\",\n        \"address\": \"ad dolor non\",\n        \"accounts\": [\n            {\n                \"name\": \"ut ut in aliquip\",\n                \"balance\": 18488862.680709064,\n                \"status\": \"laborum exercitation magna\"\n            },\n            {\n                \"name\": \"ut exercitation est\",\n                \"balance\": 11200112.974749833,\n                \"status\": \"ut id enim qui exercitation\"\n            }\n        ]\n    },\n    {\n        \"name\": \"do ir\",\n        \"address\": \"anim qui do\",\n        \"accounts\": [\n            {\n                \"name\": \"anim sunt in\",\n                \"balance\": -84802781.11928326,\n                \"status\": \"sunt non\"\n            },\n            {\n                \"name\": \"nulla minim mollit\",\n                \"balance\": -12209652.046521053,\n                \"status\": \"sed\"\n            }\n        ]\n    }\n]"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/importer",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"importer"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 500,\n \"message\": \"An unhandled error occurred\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Internal system error\"\n }\n}"
+						}
+					]
+				}
+			],
+			"description": "Importer Controller"
+		},
+		{
+			"name": "Member",
+			"item": [
+				{
+					"name": "Get Members",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/member",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"member"
+							]
+						},
+						"description": "Get a list of existing members.\nreturns 200 if any member exists.\nreturn 204 if there is no member."
+					},
+					"response": [
+						{
+							"name": "Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/member",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"member"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 500,\n \"message\": \"An unhandled error occurred\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Internal system error\"\n }\n}"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/member",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"member"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 400,\n \"message\": \"Requested Data is not Valid\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Validation Error\"\n }\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/member",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"member"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/member",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"member"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "[\n {\n  \"id\": 1,\n  \"name\": \"Farnam Jamshidian\",\n  \"address\": \"Test Address\"\n },\n {\n  \"id\": 33012286,\n  \"name\": \"Romina\",\n  \"address\": \"Test Address\"\n }\n]"
+						}
+					]
+				},
+				{
+					"name": "Create member",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Farnam Jamshidian\",\n    \"address\": \"Tehran, Tehran, Iran\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/member",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"member"
+							]
+						},
+						"description": "User can create a member.\nreturns 201 on succes."
+					},
+					"response": [
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"adipisicing\",\n    \"address\": \"ea aliqua Duis\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/member",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"member"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 400,\n \"message\": \"Requested Data is not Valid\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Validation Error\"\n }\n}"
+						},
+						{
+							"name": "Server Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"adipisicing\",\n    \"address\": \"ea aliqua Duis\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/member",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"member"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 500,\n \"message\": \"An unhandled error occurred\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Internal system error\"\n }\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"adipisicing\",\n    \"address\": \"ea aliqua Duis\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/member",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"member"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "\"String message containing success message\""
+						}
+					]
+				}
+			],
+			"description": "Member Controller and actions"
+		},
+		{
+			"name": "Search",
+			"item": [
+				{
+					"name": "Search Members",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/Search?$expand=accounts($filter=Balance gt 10 and Status eq 'ACTIVE')",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Search"
+							],
+							"query": [
+								{
+									"key": "$expand",
+									"value": "accounts($filter=Balance gt 10 and Status eq 'ACTIVE')"
+								}
+							]
+						},
+						"description": "user can export all members based on filter criteria (e.g.: export all members that have at \nleast 20 points on an inactive account)\nreturns 200 on successfully searching and returns members and their accounts.\nThis Endpoints uses OData."
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/Search",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Search"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "[\n {\n  \"id\": -20964262,\n  \"name\": \"aliquip incididunt et labore eiusmod\",\n  \"address\": \"ullamco do\",\n  \"accounts\": [\n   {\n    \"accountId\": -3990241,\n    \"companyName\": \"sint qui\",\n    \"balance\": -53772976.575207345,\n    \"status\": \"commodo nu\"\n   },\n   {\n    \"accountId\": -92445734,\n    \"companyName\": \"nulla ad\",\n    \"balance\": 90056260.461294,\n    \"status\": \"laboris\"\n   }\n  ]\n },\n {\n  \"id\": 41044891,\n  \"name\": \"minim sed labore\",\n  \"address\": \"occaecat sunt ad Lorem\",\n  \"accounts\": [\n   {\n    \"accountId\": 87081588,\n    \"companyName\": \"in enim labore ea deserunt\",\n    \"balance\": 95362455.311371,\n    \"status\": \"dolor ipsum laboris sit\"\n   },\n   {\n    \"accountId\": 68114155,\n    \"companyName\": \"voluptate culpa commodo\",\n    \"balance\": -80176471.98980615,\n    \"status\": \"adipisicing exercitation nostrud\"\n   }\n  ]\n }\n]"
+						},
+						{
+							"name": "Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/Search",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Search"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 500,\n \"message\": \"An unhandled error occurred\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Internal system error\"\n }\n}"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/Search",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Search"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;odata.metadata=minimal;odata.streaming=true"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"statusCode\": 400,\n \"message\": \"Requested Data is not Valid\",\n \"isSucceeded\": false,\n \"result\": {},\n \"error\": {\n  \"info\": {},\n  \"errorType\": \"Validation Error\"\n }\n}"
+						}
+					]
+				}
+			],
+			"description": "Search Controller and actions"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000"
+		}
+	]
+}

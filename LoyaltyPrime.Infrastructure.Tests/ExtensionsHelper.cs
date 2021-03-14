@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using LoyaltyPrime.Models.Bases.Enums;
 using LoyaltyPrime.Shared.Utilities.Extensions;
 using Xunit;

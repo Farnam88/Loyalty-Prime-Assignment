@@ -28,6 +28,7 @@ ProjectSection(SolutionItems) = preProject
 	.gitignore = .gitignore
 	Dockerfile = Dockerfile
 	README.md = README.md
+	Loyalty-Prime-farnam-jamshidian-postman_collection.json = Loyalty-Prime-farnam-jamshidian-postman_collection.json
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoyaltyPrime.ApiTests", "LoyaltyPrime.ApiTests\LoyaltyPrime.ApiTests.csproj", "{A9473003-FE21-4153-927C-AC786555FCC2}"

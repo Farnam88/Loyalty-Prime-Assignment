@@ -3,7 +3,6 @@ using LoyaltyPrime.DataAccessLayer.Repositories;
 using LoyaltyPrime.DataLayer;
 using LoyaltyPrime.Models;
 using LoyaltyPrime.Shared.Utilities.Extensions;
-using Microsoft.EntityFrameworkCore;
 
 namespace LoyaltyPrime.DataAccessLayer.Infrastructure.Repositories
 {
@@ -13,7 +12,7 @@ namespace LoyaltyPrime.DataAccessLayer.Infrastructure.Repositories
 
 
         private readonly LoyaltyPrimeContext _context;
-        private readonly IQueryable<Member> _query;
+        private IQueryable<Member> _query;
 
         public SearchRepository(LoyaltyPrimeContext context)
         {
@@ -21,7 +20,7 @@ namespace LoyaltyPrime.DataAccessLayer.Infrastructure.Repositories
             _context = context;
             var entities = context.Set<Member>();
             Preconditions.CheckNull(entities);
-            _query = entities.AsQueryable().AsNoTracking();
+            _query = entities.AsQueryable();
         }
     }
 }

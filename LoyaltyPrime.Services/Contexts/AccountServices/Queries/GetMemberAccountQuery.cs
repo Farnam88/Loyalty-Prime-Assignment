@@ -35,7 +35,7 @@ namespace LoyaltyPrime.Services.Contexts.AccountServices.Queries
             var account = await Uow.AccountRepository.FirstOrDefaultAsync(specification, cancellationToken);
             if (account != null)
                 return ResultModel<AccountDto>.Success(200, "", account);
-            return ResultModel<AccountDto>.Fail(400, "Requested Account not found",ErrorTypes.LogicalError);
+            return ResultModel<AccountDto>.Fail(404, "Requested Account not found",ErrorTypes.LogicalError);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace LoyaltyPrime.Services.Common.Specifications.AccountSpec
                 AccountId = s.Id,
                 CompanyId = s.CompanyId,
                 MemberId = s.MemberId,
-                Status = s.AccountStatus.ToString(),
+                Status = s.AccountStatus.ToString().ToUpper(),
                 CompanyName = s.Company.Name,
                 MemberName = s.Member.Name,
                 Balance = s.Balance
@@ -26,7 +26,7 @@ namespace LoyaltyPrime.Services.Common.Specifications.AccountSpec
                 AccountId = s.Id,
                 CompanyId = s.CompanyId,
                 MemberId = s.MemberId,
-                Status = s.AccountStatus.ToString(),
+                Status = s.AccountStatus.ToString().ToUpper(),
                 CompanyName = s.Company.Name,
                 MemberName = s.Member.Name,
                 Balance = s.Balance

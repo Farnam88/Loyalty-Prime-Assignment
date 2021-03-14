@@ -22,7 +22,7 @@ namespace LoyaltyPrime.WebApi.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(typeof(string), 404)]
-        public async Task<IActionResult> CreateAccount(CreateAccountCommand command)
+        public async Task<IActionResult> CreateAccount([FromBody] CreateAccountCommand command)
         {
             var result = await Mediator.Send(command);
             return ResultStatusCode(result);
@@ -30,18 +30,17 @@ namespace LoyaltyPrime.WebApi.Controllers
 
         [HttpGet("{memberId}")]
         [ProducesResponseType(typeof(IList<AccountDto>), 200)]
-        [ProducesResponseType(404)]
-        public async Task<IActionResult> GetMemberAccounts(int memberId)
+        [ProducesResponseType(204)]
+        public async Task<IActionResult> GetMemberAccounts([FromRoute] int memberId)
         {
-            var result = await Mediator.Send(new GetMemberAccountsQuery(memberId)); 
+            var result = await Mediator.Send(new GetMemberAccountsQuery(memberId));
             return ResultStatusCode(result);
         }
 
 
         [HttpGet("{memberId}/{accountId}")]
         [ProducesResponseType(typeof(AccountDto), 200)]
-        [ProducesResponseType(typeof(string), 400)]
-        public async Task<IActionResult> GetAccountById(int memberId, int accountId)
+        public async Task<IActionResult> GetAccountById([FromRoute] int memberId, [FromRoute] int accountId)
         {
             var result = await Mediator.Send(new GetMemberAccountQuery(memberId, accountId));
             return ResultStatusCode(result);

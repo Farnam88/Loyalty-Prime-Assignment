@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using LoyaltyPrime.Services.Contexts.MemberServices.Commands;
 using LoyaltyPrime.Services.Contexts.MemberServices.Dto;
 using LoyaltyPrime.Services.Contexts.MemberServices.Queris;
-using LoyaltyPrime.Shared.Utilities.Common.Data;
 using LoyaltyPrime.WebApi.Base;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +16,7 @@ namespace LoyaltyPrime.WebApi.Controllers
         public MemberController(IMediator mediator) : base(mediator)
         {
         }
-
-        /// <summary>
-        /// Get All Members
-        /// </summary>
-        /// <returns></returns>
+        
         [HttpGet]
         [ProducesResponseType(typeof(IList<MemberDto>), 200)]
         [ProducesResponseType(204)]
@@ -33,7 +28,7 @@ namespace LoyaltyPrime.WebApi.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(string), 201)]
-        public async Task<IActionResult> CreateMember(CreateMemberCommand command)
+        public async Task<IActionResult> CreateMember([FromBody]CreateMemberCommand command)
         {
             var result = await Mediator.Send(command, default);
             return ResultStatusCode(result);

@@ -18,7 +18,7 @@ namespace LoyaltyPrime.WebApi.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> ImportFromJson(List<ImportModel> input)
+        public async Task<IActionResult> ImportFromJson([FromBody]List<ImportModel> input)
         {
             var result = await Mediator.Send(new ImporterCommand(input), default);
             return StatusCode(result.StatusCode);

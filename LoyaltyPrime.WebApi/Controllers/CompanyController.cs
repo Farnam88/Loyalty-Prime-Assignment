@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using LoyaltyPrime.Services.Contexts.CompanyServices.Dtos;
 using LoyaltyPrime.Services.Contexts.CompanyServices.Queries;
-using LoyaltyPrime.Shared.Utilities.Common.Data;
 using LoyaltyPrime.WebApi.Base;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -26,10 +26,13 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --no-restore --configuration Release 
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test --no-restore --no-build --verbosity detailed
 
       - name: Publish
-        run: dotnet publish -c Release --no-restore --no-build -o ${{env.DOTNET_ROOT}}/myapp 
+        run: dotnet publish -c Release --no-restore --no-build -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
@@ -59,8 +62,8 @@ jobs:
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_12E47D8AAFA54A7792D4618B219531BE }}
           package: .
 
-      - name: Publish Artifact
-        uses: actions/upload-artifact@v1.0.0
-        with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+#      - name: Publish Artifact
+#        uses: actions/upload-artifact@v1.0.0
+#        with:
+#          name: .net-app
+#          path: ${{env.DOTNET_ROOT}}/myapp

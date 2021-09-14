@@ -60,6 +60,7 @@ jobs:
           package: .
 
       - name: Publish Artifact
-        uses: actions/upload-artifact"v1.0.0
+        uses: actions/upload-artifact@v1.0.0
         with:
           name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp

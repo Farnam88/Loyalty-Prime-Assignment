@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - __webappname__
+name: Build and deploy
 
 on:
   push:
@@ -22,16 +22,16 @@ jobs:
           dotnet-version: '5.0.x'
           include-prerelease: false
 
-      - name: Restore with dotnet
+      - name: Restore
         run: dotnet restore
 
-      - name: Build with dotnet
+      - name: Build
         run: dotnet build --no-restore --configuration Release 
 
-      - name: dotnet publish
+      - name: Publish
         run: dotnet publish -c Release --no-restore --no-build -o ${{env.DOTNET_ROOT}}/myapp 
 
-      - name: Upload artifact for deployment job
+      - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: .net-app
@@ -45,12 +45,12 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Download artifact from build job
+      - name: Download artifact
         uses: actions/download-artifact@v2
         with:
           name: .net-app
 
-      - name: Deploy to Azure Web App
+      - name: Deploy to Azure WebApp
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
@@ -58,3 +58,9 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_12E47D8AAFA54A7792D4618B219531BE }}
           package: .
+
+      - name: Publish Artifact
+        uses: actions/upload-artifact"v1.0.0
+        with:
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp

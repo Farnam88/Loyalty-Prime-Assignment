@@ -12,11 +12,11 @@ namespace LoyaltyPrime.WebApi
             var host = CreateHostBuilder(args).Build();
 
             await host.Services.InitDataBase();
-
+            
             await host.RunAsync();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args)
+        private static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
